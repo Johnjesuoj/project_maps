@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Project Maps — Design Tokens v1</title>
+<style>
+  :root {
+    --bg: #F8FAF6;
+    --surface: #FFFFFF;
+    --ink: #14231A;
+    --muted: #5A6B60;
+    --primary: #1B7A4D;
+    --primary-ink: #FFFFFF;
+    --accent: #F2B705;
+    --border: #DCE5DD;
+    --radius: 12px;
+    --font: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: var(--font); background: var(--bg); color: var(--ink); }
+  .wrap { max-width: 880px; margin: 0 auto; padding: 32px 20px 48px; }
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; margin: 16px 0; }
+  .swatches { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; }
+  .swatch { border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+  .chip { height: 56px; }
+  .meta { padding: 8px 10px; font-size: 13px; }
+  .btn { appearance: none; border: 2px solid #0E4D2F; border-radius: 14px; padding: 13px 22px; font-weight: 750; font-size: 15px; letter-spacing: 0.01em;
+    background: linear-gradient(180deg, #22A065, #146B43); color: #FFFFFF; cursor: pointer;
+    box-shadow: 0 6px 16px rgba(20,107,67,0.28), inset 0 1px 0 rgba(255,255,255,0.35); transition: transform 120ms ease, box-shadow 120ms ease, filter 120ms ease; }
+  .btn:hover { filter: brightness(1.06); box-shadow: 0 8px 20px rgba(20,107,67,0.34), inset 0 1px 0 rgba(255,255,255,0.4); }
+  .btn:active { transform: translateY(1px); box-shadow: 0 3px 10px rgba(20,107,67,0.25); }
+  .field { display: grid; gap: 8px; margin-top: 12px; }
+  label { font-size: 13px; color: var(--muted); font-weight: 600; }
+  input[type="text"] { padding: 12px 14px; border-radius: 10px; border: 1px solid var(--border); font-size: 15px; font-family: inherit; background: #fff; color: var(--ink); }
+  input[type="text"]:focus { outline: 2px solid var(--primary); outline-offset: 1px; border-color: var(--primary); }
+  h1 { font-size: 28px; margin: 0 0 6px; letter-spacing: -0.02em; }
+  h2 { font-size: 18px; margin: 0 0 10px; }
+  p.sub { color: var(--muted); margin: 0 0 8px; }
+  .type-sample { display: grid; gap: 6px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Project Maps — Design v1</h1>
+  <p class="sub">Tokens preview: colors, typography, button, input. Local only.</p>
+
+  <div class="card">
+    <h2>Colors</h2>
+    <div class="swatches">
+      <div class="swatch"><div class="chip" style="background:#F8FAF6"></div><div class="meta">--bg #F8FAF6</div></div>
+      <div class="swatch"><div class="chip" style="background:#FFFFFF"></div><div class="meta">--surface #FFFFFF</div></div>
+      <div class="swatch"><div class="chip" style="background:#14231A"></div><div class="meta">--ink #14231A</div></div>
+      <div class="swatch"><div class="chip" style="background:#5A6B60"></div><div class="meta">--muted #5A6B60</div></div>
+      <div class="swatch"><div class="chip" style="background:#1B7A4D"></div><div class="meta">--primary #1B7A4D</div></div>
+      <div class="swatch"><div class="chip" style="background:#F2B705"></div><div class="meta">--accent #F2B705</div></div>
+      <div class="swatch"><div class="chip" style="background:#DCE5DD"></div><div class="meta">--border #DCE5DD</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Typography</h2>
+    <div class="type-sample">
+      <div style="font-size:28px;font-weight:750;letter-spacing:-0.02em">Heading — From the road to the door</div>
+      <div style="font-size:16px">Body — Maps get you close. We get you there. Verified location guides with photos and landmarks.</div>
+      <div style="font-size:13px;color:var(--muted)">Caption — Owner verified · Updated 3 days ago</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Button</h2>
+    <button class="btn" type="button">Find my way</button>
+  </div>
+
+  <div class="card">
+    <h2>Input</h2>
+    <div class="field">
+      <label for="dest">Where are you going?</label>
+      <input id="dest" type="text" placeholder="e.g. pharmacy beside the big church in Ikeja" value="" />
+    </div>
+  </div>
+</div>
+</body>
+</html>

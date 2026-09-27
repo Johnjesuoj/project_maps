@@ -141,3 +141,10 @@ Concrete outputs:
 - **What was explained:** SQLite is zero-setup/file-based and fastest to a single working page; Prisma supports it, and Auth.js flows work for basic cases. PostgreSQL costs more setup (Docker) but matches the stated prod targets (Neon/Supabase), handles concurrent community writes without `SQLITE_BUSY` pain, supports `pg_trgm`/full-text and later PostGIS geo queries the maps search (§21) will need, has mature Auth.js adapter behavior, and gives transactional integrity for future Paystack orders/installments. Starting on SQLite means a later Prisma migration rewrite the moment any Postgres-specific feature is needed.
 - **Decision:** Keep PostgreSQL.
 - **Why:** User confirmed "Keep PostgreSQL" after tradeoff walkthrough. Local Postgres via Docker preserves prod parity (Neon/Supabase), avoids a mid-project SQLite→Postgres migration, and covers concurrent edits, verification/claims queues, alerts, and payment tables the plan already scaffolds. Accepted cost: Docker setup for local dev instead of zero-config SQLite.
+
+## 4. Design Refinement Note
+
+- **File:** `design.html` (local preview: colors, typography, styled button, sample input field).
+- **Refinement requested:** Restyle the button.
+- **What changed:** Primary button went from flat pill (`border: 0; border-radius: 999px; background: #1B7A4D`) to bordered gradient treatment (`2px solid #0E4D2F; border-radius: 14px; linear-gradient #22A065 → #146B43`) with depth shadow, inset highlight, hover brighten + larger shadow, and pressed-state collapse.
+- **Preview confirmed:** Re-previewed `design.html` after the edit; the button now renders with the gradient, border, shadow, and hover treatment.
