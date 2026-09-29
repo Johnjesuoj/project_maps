@@ -18,3 +18,32 @@ export const patchLocationSchema = z.object({
   lookFor: z.string().max(500).nullish(),
   landmarks: z.array(z.string().min(1).max(60)).max(20).optional(),
 });
+
+export const claimSchema = z.object({
+  note: z.string().max(500).nullish(),
+});
+
+export const claimDecisionSchema = z.object({
+  action: z.enum(["approve", "reject"]),
+});
+
+export const correctionSchema = z.object({
+  type: z.enum([
+    "wrong_entrance",
+    "wrong_directions",
+    "wrong_photo",
+    "moved",
+    "blocked_road",
+    "demolished",
+    "wrong_landmark",
+    "access_restriction",
+    "other",
+  ]),
+  detail: z.string().min(5).max(1000),
+});
+
+export const correctionDecisionSchema = z.object({
+  action: z.enum(["confirm", "dismiss"]),
+  // Optional corrected values applied to the location when confirming.
+  apply: patchLocationSchema.optional(),
+});

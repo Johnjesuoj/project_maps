@@ -107,3 +107,15 @@ export async function updateLocation(
   await writeAll(rows);
   return rows[idx];
 }
+
+export async function setVerificationStatus(
+  id: string,
+  status: VerificationStatus
+): Promise<LocationRecord | null> {
+  const rows = await readAll();
+  const idx = rows.findIndex((l) => l.id === id);
+  if (idx === -1) return null;
+  rows[idx] = { ...rows[idx], verificationStatus: status, updatedAt: new Date().toISOString() };
+  await writeAll(rows);
+  return rows[idx];
+}

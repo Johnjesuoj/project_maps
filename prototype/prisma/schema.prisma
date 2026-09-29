@@ -41,6 +41,8 @@ model Location {
   createdAt          DateTime           @default(now())
   updatedAt          DateTime           @updatedAt
   photos             LocationPhoto[]
+  claims             Claim[]
+  corrections        Correction[]
 
   @@index([name])
   @@index([parentId])
@@ -56,4 +58,46 @@ model LocationPhoto {
   createdAt   DateTime @default(now())
 
   @@index([locationId])
+}
+
+enum ClaimStatus {
+  pending
+  approved
+  rejected
+}
+
+enum CorrectionStatus {
+  pending
+  confirmed
+  dismissed
+}
+
+model Claim {
+  id          String      @id @default(cuid())
+  locationId  String
+  location    Location    @relation(fields: [locationId], references: [id], onDelete: Cascade)
+  claimantId  String?
+  claimantNote String?
+  status      ClaimStatus @default(pending)
+  decidedBy   String?
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  @@index([locationId])
+  @@index([status])
+}
+
+model Correction {
+  id         String           @id @default(cuid())
+  locationId String
+  location   Location         @relation(fields: [locationId], references: [id], onDelete: Cascade)
+  type       String
+  detail     String
+  status     CorrectionStatus @default(pending)
+  reporterId String?
+  createdAt  DateTime         @default(now())
+  updatedAt  DateTime         @updatedAt
+
+  @@index([locationId])
+  @@index([status])
 }
