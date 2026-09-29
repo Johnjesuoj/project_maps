@@ -1,0 +1,64 @@
+[
+  {
+    "id": "buzz-studio",
+    "name": "BUZZ Creative Studio",
+    "category": "Studio",
+    "address": "14 Example Street, Lagos",
+    "description": "Creative studio inside an estate compound.",
+    "entrance": "Main entrance through the black gate.",
+    "finalDirections": "Enter through the second gate after the pharmacy. Inside the estate, continue straight ~100m, turn left after the large mango tree.",
+    "landmarks": [
+      "pharmacy",
+      "mango tree"
+    ],
+    "lookFor": "Blue gate · White two-storey building · BUZZ sign",
+    "verificationStatus": "owner_verified",
+    "parentId": null,
+    "lat": null,
+    "lng": null,
+    "createdById": null,
+    "createdAt": "2026-09-29T00:00:00.000Z",
+    "updatedAt": "2026-09-26T00:00:00.000Z"
+  },
+  {
+    "id": "greenview-gate",
+    "name": "Greenview Estate — Gate B",
+    "category": "Estate",
+    "address": "Greenview Estate, Lagos",
+    "description": "Estate secondary entrance.",
+    "entrance": "Gate B, via security post.",
+    "finalDirections": "Use Gate B today. Pass the security post and continue straight to Block A.",
+    "landmarks": [
+      "security post"
+    ],
+    "lookFor": "Security post · Green gate · Block A sign",
+    "verificationStatus": "resident_verified",
+    "parentId": null,
+    "lat": null,
+    "lng": null,
+    "createdById": null,
+    "createdAt": "2026-09-29T00:00:00.000Z",
+    "updatedAt": "2026-09-27T00:00:00.000Z"
+  },
+  {
+    "id": "ikeja-pharmacy",
+    "name": "Pharmacy beside big church, Ikeja",
+    "category": "Shop",
+    "address": "Ikeja, Lagos",
+    "description": "Pharmacy landmark location.",
+    "entrance": "Street entrance.",
+    "finalDirections": "Turn into the street beside XYZ Pharmacy. Keep left at the first junction.",
+    "landmarks": [
+      "pharmacy",
+      "church"
+    ],
+    "lookFor": "Blue pharmacy sign · White church building",
+    "verificationStatus": "community_verified",
+    "parentId": null,
+    "lat": null,
+    "lng": null,
+    "createdById": null,
+    "createdAt": "2026-09-29T00:00:00.000Z",
+    "updatedAt": "2026-09-28T00:00:00.000Z"
+  }
+]
