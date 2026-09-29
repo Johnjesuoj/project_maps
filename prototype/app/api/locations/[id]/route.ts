@@ -1,11 +1,13 @@
 import { NextResponse } from "next/server";
 import { getLocation, updateLocation } from "@/lib/locations";
+import { listPhotos } from "@/lib/photos";
 import { patchLocationSchema } from "@/lib/validation";
 
 export async function GET(_req: Request, { params }: { params: { id: string } }) {
   const row = await getLocation(params.id);
   if (!row) return NextResponse.json({ error: "Not found" }, { status: 404 });
-  return NextResponse.json(row);
+  const photos = await listPhotos(params.id);
+  return NextResponse.json({ ...row, photos });
 }
 
 export async function PATCH(req: Request, { params }: { params: { id: string } }) {

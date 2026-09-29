@@ -3,3 +3,4 @@ prototype/.next/
 prototype/out/
 prototype/.env
 prototype/tsconfig.tsbuildinfo
+prototype/public/uploads/

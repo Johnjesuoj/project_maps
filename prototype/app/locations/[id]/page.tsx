@@ -1,17 +1,24 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getLocation } from "@/lib/locations";
+import { listPhotos } from "@/lib/photos";
 import { countConfirmations } from "@/lib/trust";
 import { ConfidenceLine } from "@/components/ConfidenceLine";
 import { ShareButtons } from "@/components/ShareButtons";
 import { ClaimButton } from "@/components/ClaimButton";
 import { OwnerEditForm } from "@/components/OwnerEditForm";
 import { CorrectionForm } from "@/components/CorrectionForm";
+import { PhotoGallery } from "@/components/PhotoGallery";
+import { PhotoUploader } from "@/components/PhotoUploader";
+import { LandmarkEditor } from "@/components/LandmarkEditor";
 
 export default async function LocationDetailPage({ params }: { params: { id: string } }) {
   const location = await getLocation(params.id);
   if (!location) notFound();
-  const confirmations = await countConfirmations(params.id);
+  const [confirmations, photos] = await Promise.all([
+    countConfirmations(params.id),
+    listPhotos(params.id),
+  ]);
 
   return (
     <main style={{ maxWidth: 720, margin: "0 auto", padding: "32px 20px 48px" }}>
@@ -39,9 +46,12 @@ export default async function LocationDetailPage({ params }: { params: { id: str
       {location.landmarks.length > 0 && (
         <p style={{ color: "#5A6B60" }}>Landmarks: {location.landmarks.join(", ")}</p>
       )}
+      <PhotoGallery photos={photos} />
       <ShareButtons id={location.id} name={location.name} />
       <ClaimButton locationId={location.id} />
       <OwnerEditForm location={location} />
+      <LandmarkEditor locationId={location.id} initial={location.landmarks} />
+      <PhotoUploader locationId={location.id} />
       <CorrectionForm locationId={location.id} />
     </main>
   );
