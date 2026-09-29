@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { decideClaim } from "@/lib/trust";
-import { setVerificationStatus } from "@/lib/locations";
+import { getLocation, setVerificationStatus } from "@/lib/locations";
+import { sendEmail } from "@/lib/email";
 import { claimDecisionSchema } from "@/lib/validation";
 
 // POST /api/admin/claims/[id] { action: approve|reject }
@@ -18,6 +19,11 @@ export async function POST(req: Request, { params }: { params: { id: string } })
   if (claim.status === "approved") {
     // Badge flip: approving a claim marks the location owner-verified.
     await setVerificationStatus(claim.locationId, "owner_verified");
+    const location = await getLocation(claim.locationId);
+    sendEmail("owner@localhost", {
+      kind: "claim-approved",
+      locationName: location?.name ?? claim.locationId,
+    }).catch(() => {});
   }
   return NextResponse.json(claim);
 }

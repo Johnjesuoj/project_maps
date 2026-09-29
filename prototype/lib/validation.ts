@@ -47,3 +47,24 @@ export const correctionDecisionSchema = z.object({
   // Optional corrected values applied to the location when confirming.
   apply: patchLocationSchema.optional(),
 });
+
+export const alertSchema = z.object({
+  locationId: z.string().min(1).nullish(),
+  roadHint: z.string().min(3).max(200).nullish(),
+  type: z.enum([
+    "construction",
+    "checkpoint",
+    "congestion",
+    "closure",
+    "accident",
+    "flood",
+    "event",
+    "diversion",
+  ]),
+  detail: z.string().min(5).max(1000),
+  ttlHours: z.number().min(0.25).max(72).optional(),
+});
+
+export const alertDecisionSchema = z.object({
+  action: z.enum(["confirm", "clear"]),
+});

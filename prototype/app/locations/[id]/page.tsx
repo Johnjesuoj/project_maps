@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { getLocation } from "@/lib/locations";
 import { listPhotos } from "@/lib/photos";
 import { countConfirmations } from "@/lib/trust";
+import { listAlerts } from "@/lib/alerts";
 import { ConfidenceLine } from "@/components/ConfidenceLine";
 import { ShareButtons } from "@/components/ShareButtons";
 import { ClaimButton } from "@/components/ClaimButton";
@@ -11,13 +12,16 @@ import { CorrectionForm } from "@/components/CorrectionForm";
 import { PhotoGallery } from "@/components/PhotoGallery";
 import { PhotoUploader } from "@/components/PhotoUploader";
 import { LandmarkEditor } from "@/components/LandmarkEditor";
+import { AlertComposer } from "@/components/AlertComposer";
+import { AlertList } from "@/components/AlertList";
 
 export default async function LocationDetailPage({ params }: { params: { id: string } }) {
   const location = await getLocation(params.id);
   if (!location) notFound();
-  const [confirmations, photos] = await Promise.all([
+  const [confirmations, photos, alerts] = await Promise.all([
     countConfirmations(params.id),
     listPhotos(params.id),
+    listAlerts({ locationId: params.id }),
   ]);
 
   return (
@@ -47,6 +51,9 @@ export default async function LocationDetailPage({ params }: { params: { id: str
         <p style={{ color: "#5A6B60" }}>Landmarks: {location.landmarks.join(", ")}</p>
       )}
       <PhotoGallery photos={photos} />
+      <h2>Current conditions</h2>
+      <AlertList alerts={alerts} />
+      <AlertComposer locationId={location.id} />
       <ShareButtons id={location.id} name={location.name} />
       <ClaimButton locationId={location.id} />
       <OwnerEditForm location={location} />

@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { confirmCorrection } from "@/lib/trust";
-import { updateLocation } from "@/lib/locations";
+import { getLocation, updateLocation } from "@/lib/locations";
+import { sendEmail } from "@/lib/email";
 import { correctionDecisionSchema } from "@/lib/validation";
 
 // POST /api/corrections/[id] { action: confirm|dismiss, apply?: {...} }
@@ -18,5 +19,11 @@ export async function POST(req: Request, { params }: { params: { id: string } })
   if (correction.status === "confirmed" && parsed.data.apply) {
     await updateLocation(correction.locationId, parsed.data.apply);
   }
+  const location = await getLocation(correction.locationId);
+  sendEmail("reporter@localhost", {
+    kind: "correction-decided",
+    locationName: location?.name ?? correction.locationId,
+    decision: correction.status,
+  }).catch(() => {});
   return NextResponse.json(correction);
 }

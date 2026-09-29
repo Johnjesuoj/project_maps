@@ -43,6 +43,7 @@ model Location {
   photos             LocationPhoto[]
   claims             Claim[]
   corrections        Correction[]
+  alerts             Alert[]
 
   @@index([name])
   @@index([parentId])
@@ -97,6 +98,42 @@ model Correction {
   reporterId String?
   createdAt  DateTime         @default(now())
   updatedAt  DateTime         @updatedAt
+
+  @@index([locationId])
+  @@index([status])
+}
+
+enum AlertType {
+  construction
+  checkpoint
+  congestion
+  closure
+  accident
+  flood
+  event
+  diversion
+}
+
+enum AlertStatus {
+  active
+  cleared
+  expired
+}
+
+model Alert {
+  id          String      @id @default(cuid())
+  locationId  String?
+  location    Location?   @relation(fields: [locationId], references: [id], onDelete: Cascade)
+  roadHint    String?
+  type        AlertType
+  detail      String
+  reportedAt  DateTime    @default(now())
+  expiresAt   DateTime
+  status      AlertStatus @default(active)
+  confirms    Int         @default(0)
+  reporterId  String?
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
 
   @@index([locationId])
   @@index([status])
