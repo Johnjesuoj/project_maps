@@ -4,6 +4,7 @@ import { getLocation } from "@/lib/locations";
 import { listPhotos } from "@/lib/photos";
 import { countConfirmations } from "@/lib/trust";
 import { listAlerts } from "@/lib/alerts";
+import { getBreadcrumb, getChildren } from "@/lib/locations";
 import { ConfidenceLine } from "@/components/ConfidenceLine";
 import { ShareButtons } from "@/components/ShareButtons";
 import { ClaimButton } from "@/components/ClaimButton";
@@ -18,10 +19,12 @@ import { AlertList } from "@/components/AlertList";
 export default async function LocationDetailPage({ params }: { params: { id: string } }) {
   const location = await getLocation(params.id);
   if (!location) notFound();
-  const [confirmations, photos, alerts] = await Promise.all([
+  const [confirmations, photos, alerts, breadcrumb, children] = await Promise.all([
     countConfirmations(params.id),
     listPhotos(params.id),
     listAlerts({ locationId: params.id }),
+    getBreadcrumb(params.id),
+    getChildren(params.id),
   ]);
 
   return (
@@ -29,6 +32,24 @@ export default async function LocationDetailPage({ params }: { params: { id: str
       <p>
         <Link href="/">← Search</Link> · <Link href="/admin/claims">Moderation queue</Link>
       </p>
+      {breadcrumb.length > 0 && (
+        <p style={{ fontSize: 14, color: "#5A6B60" }}>
+          Inside:{" "}
+          {breadcrumb.map((b) => (
+            <span key={b.id}>
+              <Link href={`/locations/${b.id}`}>{b.name}</Link> →{" "}
+            </span>
+          ))}
+          {location.name} · <Link href={`/locations/${location.id}/tree`}>drill down →</Link>
+        </p>
+      )}
+      {breadcrumb.length === 0 && children.length > 0 && (
+        <p style={{ fontSize: 14 }}>
+          <Link href={`/locations/${location.id}/tree`}>
+            Navigate inside ({children.length} place{children.length === 1 ? "" : "s"}) →
+          </Link>
+        </p>
+      )}
       <h1 style={{ fontSize: 26, margin: "8px 0" }}>{location.name}</h1>
       <p style={{ color: "#5A6B60" }}>{location.address} · {location.category}</p>
       <ConfidenceLine location={location} confirmations={confirmations} />

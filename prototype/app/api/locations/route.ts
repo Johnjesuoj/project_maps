@@ -14,6 +14,10 @@ export async function POST(req: Request) {
   if (!parsed.success) {
     return NextResponse.json({ error: parsed.error.flatten() }, { status: 400 });
   }
-  const row = await createLocation(parsed.data);
-  return NextResponse.json(row, { status: 201 });
+  try {
+    const row = await createLocation(parsed.data);
+    return NextResponse.json(row, { status: 201 });
+  } catch (e) {
+    return NextResponse.json({ error: e instanceof Error ? e.message : "Create failed" }, { status: 400 });
+  }
 }

@@ -35,6 +35,7 @@ model Location {
   parentId           String?
   parent             Location?          @relation("LocationTree", fields: [parentId], references: [id], onDelete: SetNull)
   children           Location[]         @relation("LocationTree")
+  level              LocationLevel      @default(place)
   lat                Float?
   lng                Float?
   createdById        String?
@@ -119,7 +120,6 @@ enum AlertStatus {
   cleared
   expired
 }
-
 model Alert {
   id          String      @id @default(cuid())
   locationId  String?
@@ -137,4 +137,67 @@ model Alert {
 
   @@index([locationId])
   @@index([status])
+}
+
+enum LocationLevel {
+  estate
+  block
+  building
+  floor
+  unit
+  shop
+  place
+}
+
+enum OrderStatus {
+  pending
+  paid
+  failed
+  cancelled
+}
+
+enum PaymentStatus {
+  pending
+  success
+  failed
+}
+
+model Order {
+  id           String      @id @default(cuid())
+  payerId      String?
+  amountKobo   Int
+  currency     String      @default("NGN")
+  status       OrderStatus @default(pending)
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+  payments     Payment[]
+  installments InstallmentPlan[]
+
+  @@index([status])
+}
+
+model Payment {
+  id         String        @id @default(cuid())
+  orderId    String
+  order      Order         @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  provider   String        @default("paystack")
+  reference  String        @unique
+  status     PaymentStatus @default(pending)
+  rawPayload Json?
+  createdAt  DateTime      @default(now())
+  updatedAt  DateTime      @updatedAt
+
+  @@index([orderId])
+}
+
+model InstallmentPlan {
+  id           String      @id @default(cuid())
+  orderId      String
+  order        Order       @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  scheduleJson Json
+  status       OrderStatus @default(pending)
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+
+  @@index([orderId])
 }

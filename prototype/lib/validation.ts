@@ -9,6 +9,8 @@ export const createLocationSchema = z.object({
   finalDirections: z.string().min(5).max(2000),
   landmarks: z.array(z.string().min(1).max(60)).max(20).optional().default([]),
   lookFor: z.string().max(500).nullish(),
+  parentId: z.string().min(1).nullish(),
+  level: z.enum(["estate", "block", "building", "floor", "unit", "shop", "place"]).optional(),
 });
 
 export const patchLocationSchema = z.object({
@@ -17,6 +19,10 @@ export const patchLocationSchema = z.object({
   finalDirections: z.string().min(5).max(2000).optional(),
   lookFor: z.string().max(500).nullish(),
   landmarks: z.array(z.string().min(1).max(60)).max(20).optional(),
+});
+
+export const reparentSchema = z.object({
+  parentId: z.string().min(1).nullable(),
 });
 
 export const claimSchema = z.object({

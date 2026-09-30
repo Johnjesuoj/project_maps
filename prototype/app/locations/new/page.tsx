@@ -1,9 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
 const STEPS = ["Identify", "Reach", "Visuals", "Confirm"] as const;
+const LEVELS = ["estate", "block", "building", "floor", "unit", "shop", "place"] as const;
 
 export default function NewLocationPage() {
   const router = useRouter();
@@ -14,8 +15,18 @@ export default function NewLocationPage() {
   const [finalDirections, setFinalDirections] = useState("");
   const [lookFor, setLookFor] = useState("");
   const [entrance, setEntrance] = useState("");
+  const [parentId, setParentId] = useState("");
+  const [level, setLevel] = useState<string>("place");
+  const [existing, setExisting] = useState<{ id: string; name: string }[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
+
+  useEffect(() => {
+    fetch("/api/locations")
+      .then((r) => r.json())
+      .then((rows) => setExisting(rows.map((l: { id: string; name: string }) => ({ id: l.id, name: l.name }))))
+      .catch(() => {});
+  }, []);
 
   async function submit() {
     setError(null);
@@ -32,6 +43,8 @@ export default function NewLocationPage() {
           finalDirections,
           lookFor: lookFor || null,
           landmarks: [],
+          parentId: parentId || null,
+          level,
         }),
       });
       if (!res.ok) {
@@ -66,6 +79,27 @@ export default function NewLocationPage() {
           <label>
             Address
             <input value={address} onChange={(e) => setAddress(e.target.value)} placeholder="14 Example Street, Lagos" style={{ display: "block", width: "100%", padding: 10, marginTop: 4 }} />
+          </label>
+          <label>
+            Inside another place? (optional)
+            <select value={parentId} onChange={(e) => setParentId(e.target.value)} style={{ display: "block", width: "100%", padding: 10, marginTop: 4 }}>
+              <option value="">Top-level place</option>
+              {existing.map((l) => (
+                <option key={l.id} value={l.id}>
+                  {l.name}
+                </option>
+              ))}
+            </select>
+          </label>
+          <label>
+            Level
+            <select value={level} onChange={(e) => setLevel(e.target.value)} style={{ display: "block", width: "100%", padding: 10, marginTop: 4 }}>
+              {LEVELS.map((l) => (
+                <option key={l} value={l}>
+                  {l}
+                </option>
+              ))}
+            </select>
           </label>
         </section>
       )}
