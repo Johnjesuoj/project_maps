@@ -36,6 +36,7 @@ model Location {
   parent             Location?          @relation("LocationTree", fields: [parentId], references: [id], onDelete: SetNull)
   children           Location[]         @relation("LocationTree")
   level              LocationLevel      @default(place)
+  visibility         Visibility         @default(public)
   lat                Float?
   lng                Float?
   createdById        String?
@@ -45,6 +46,7 @@ model Location {
   claims             Claim[]
   corrections        Correction[]
   alerts             Alert[]
+  arrivals           ArrivalReport[]
 
   @@index([name])
   @@index([parentId])
@@ -149,6 +151,12 @@ enum LocationLevel {
   place
 }
 
+enum Visibility {
+  public
+  private_link
+  approved
+}
+
 enum OrderStatus {
   pending
   paid
@@ -200,4 +208,25 @@ model InstallmentPlan {
   updatedAt    DateTime    @updatedAt
 
   @@index([orderId])
+}
+
+model ArrivalReport {
+  id         String   @id @default(cuid())
+  locationId String
+  location   Location @relation(fields: [locationId], references: [id], onDelete: Cascade)
+  helpful    Boolean
+  createdAt  DateTime @default(now())
+
+  @@index([locationId])
+}
+
+model AbuseReport {
+  id         String   @id @default(cuid())
+  targetType String
+  targetId   String
+  reason     String
+  status     String   @default("pending")
+  createdAt  DateTime @default(now())
+
+  @@index([status])
 }

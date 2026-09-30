@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import type { AlertRecord } from "@/lib/alerts";
+import { ReportButton } from "./ReportButton";
 
 function ageInMinutes(iso: string): number {
   return Math.max(0, Math.round((Date.now() - new Date(iso).getTime()) / 60000));
@@ -31,13 +32,14 @@ export function AlertList({ alerts }: { alerts: AlertRecord[] }) {
             Reported {ageInMinutes(a.reportedAt)}m ago
             {a.roadHint ? ` · ${a.roadHint}` : ""} · {a.confirms} confirmation{a.confirms === 1 ? "" : "s"}
           </p>
-          <div style={{ display: "flex", gap: 8 }}>
+          <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
             <button type="button" onClick={() => act(a.id, "confirm")}>
               Still happening
             </button>
             <button type="button" onClick={() => act(a.id, "clear")}>
               Cleared
             </button>
+            <ReportButton targetType="alert" targetId={a.id} />
           </div>
         </div>
       ))}

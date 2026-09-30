@@ -11,6 +11,7 @@ export const createLocationSchema = z.object({
   lookFor: z.string().max(500).nullish(),
   parentId: z.string().min(1).nullish(),
   level: z.enum(["estate", "block", "building", "floor", "unit", "shop", "place"]).optional(),
+  visibility: z.enum(["public", "private_link", "approved"]).optional(),
 });
 
 export const patchLocationSchema = z.object({
@@ -19,6 +20,7 @@ export const patchLocationSchema = z.object({
   finalDirections: z.string().min(5).max(2000).optional(),
   lookFor: z.string().max(500).nullish(),
   landmarks: z.array(z.string().min(1).max(60)).max(20).optional(),
+  visibility: z.enum(["public", "private_link", "approved"]).optional(),
 });
 
 export const reparentSchema = z.object({
@@ -73,4 +75,19 @@ export const alertSchema = z.object({
 
 export const alertDecisionSchema = z.object({
   action: z.enum(["confirm", "clear"]),
+});
+
+export const reportSchema = z.object({
+  targetType: z.enum(["photo", "alert", "location"]),
+  targetId: z.string().min(1),
+  reason: z.string().min(5).max(500),
+});
+
+export const reportDecisionSchema = z.object({
+  action: z.enum(["dismiss", "action"]),
+});
+
+export const arrivalSchema = z.object({
+  locationId: z.string().min(1),
+  helpful: z.boolean(),
 });

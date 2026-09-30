@@ -26,6 +26,8 @@ export const LOCATION_LEVELS = [
 
 export type LocationLevel = (typeof LOCATION_LEVELS)[number];
 
+export type Visibility = "public" | "private_link" | "approved";
+
 export type LocationRecord = {
   id: string;
   name: string;
@@ -39,6 +41,7 @@ export type LocationRecord = {
   verificationStatus: VerificationStatus;
   parentId: string | null;
   level: LocationLevel;
+  visibility: Visibility;
   lat: number | null;
   lng: number | null;
   createdById: string | null;
@@ -51,9 +54,10 @@ const DATA_FILE = path.join(process.cwd(), "data", "locations.json");
 async function readAll(): Promise<LocationRecord[]> {
   const raw = await fs.readFile(DATA_FILE, "utf-8");
   const rows = JSON.parse(raw) as LocationRecord[];
-  // Backfill for seed rows written before `level` existed.
+  // Backfill for seed rows written before `level` / `visibility` existed.
   for (const r of rows) {
     if (!r.level) r.level = "place";
+    if (!r.visibility) r.visibility = "public";
   }
   return rows;
 }
@@ -64,10 +68,13 @@ async function writeAll(rows: LocationRecord[]): Promise<void> {
 
 export async function listLocations(q?: string): Promise<LocationRecord[]> {
   const rows = await readAll();
+  // Discovery surfaces show public places only. private_link / approved are
+  // reachable via direct / shared links (auth-gated properly with Auth.js).
+  const visible = rows.filter((l) => l.visibility === "public");
   const needle = (q ?? "").trim().toLowerCase();
-  if (!needle) return rows;
+  if (!needle) return visible;
   // Local equivalent of Postgres `ILIKE '%q%'` across searchable columns.
-  return rows.filter((l) =>
+  return visible.filter((l) =>
     `${l.name} ${l.address} ${l.description ?? ""} ${l.finalDirections} ${l.lookFor ?? ""} ${(l.landmarks ?? []).join(" ")}`
       .toLowerCase()
       .includes(needle)
@@ -90,6 +97,7 @@ export async function createLocation(input: {
   lookFor?: string | null;
   parentId?: string | null;
   level?: LocationLevel;
+  visibility?: Visibility;
 }): Promise<LocationRecord> {
   const rows = await readAll();
   if (input.parentId) {
@@ -111,6 +119,7 @@ export async function createLocation(input: {
     verificationStatus: "unverified",
     parentId: input.parentId ?? null,
     level: input.level ?? "place",
+    visibility: input.visibility ?? "public",
     lat: null,
     lng: null,
     createdById: null,
@@ -124,7 +133,9 @@ export async function createLocation(input: {
 
 export async function updateLocation(
   id: string,
-  patch: Partial<Pick<LocationRecord, "description" | "entrance" | "finalDirections" | "lookFor" | "landmarks">>
+  patch: Partial<
+    Pick<LocationRecord, "description" | "entrance" | "finalDirections" | "lookFor" | "landmarks" | "visibility">
+  >
 ): Promise<LocationRecord | null> {
   const rows = await readAll();
   const idx = rows.findIndex((l) => l.id === id);

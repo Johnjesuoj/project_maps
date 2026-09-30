@@ -5,11 +5,23 @@ import { listPhotos } from "@/lib/photos";
 import { verificationLabel } from "@/components/LocationCard";
 import { ShareButtons } from "@/components/ShareButtons";
 import { PhotoGallery } from "@/components/PhotoGallery";
+import { ArrivalReporter } from "@/components/ArrivalReporter";
+import { ReportButton } from "@/components/ReportButton";
 
 // Public share landing: `/l/[id]` — what a WhatsApp/SMS recipient opens.
+// This is the private-link path: full content here, masked on the profile
+// page. `approved` stays masked everywhere until Auth roles land.
 export default async function ShareLandingPage({ params }: { params: { id: string } }) {
   const location = await getLocation(params.id);
   if (!location) notFound();
+  if (location.visibility === "approved") {
+    return (
+      <main style={{ maxWidth: 640, margin: "0 auto", padding: "32px 20px 48px" }}>
+        <p>Private residence — detailed directions available through shared link.</p>
+        <p style={{ color: "#5A6B60", fontSize: 13 }}>Access is limited to approved people.</p>
+      </main>
+    );
+  }
   const photos = await listPhotos(params.id);
 
   return (
@@ -27,7 +39,11 @@ export default async function ShareLandingPage({ params }: { params: { id: strin
       )}
       <PhotoGallery photos={photos} />
       <p style={{ color: "#5A6B60", fontSize: 13 }}>✓ {verificationLabel(location.verificationStatus)}</p>
+      <p>
+        <ReportButton targetType="location" targetId={location.id} />
+      </p>
       <ShareButtons id={location.id} name={location.name} />
+      <ArrivalReporter locationId={location.id} />
       <p style={{ marginTop: 16 }}>
         <Link href={`/locations/${location.id}`}>Open full profile →</Link>
       </p>

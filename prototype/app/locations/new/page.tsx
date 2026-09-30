@@ -17,6 +17,7 @@ export default function NewLocationPage() {
   const [entrance, setEntrance] = useState("");
   const [parentId, setParentId] = useState("");
   const [level, setLevel] = useState<string>("place");
+  const [visibility, setVisibility] = useState<string>("public");
   const [existing, setExisting] = useState<{ id: string; name: string }[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
@@ -45,6 +46,7 @@ export default function NewLocationPage() {
           landmarks: [],
           parentId: parentId || null,
           level,
+          visibility,
         }),
       });
       if (!res.ok) {
@@ -99,6 +101,14 @@ export default function NewLocationPage() {
                   {l}
                 </option>
               ))}
+            </select>
+          </label>
+          <label>
+            Visibility
+            <select value={visibility} onChange={(e) => setVisibility(e.target.value)} style={{ display: "block", width: "100%", padding: 10, marginTop: 4 }}>
+              <option value="public">Public</option>
+              <option value="private_link">Private link</option>
+              <option value="approved">Approved people</option>
             </select>
           </label>
         </section>

@@ -49,7 +49,8 @@ export default function AdminQueuePage() {
   return (
     <main style={{ maxWidth: 880, margin: "0 auto", padding: "32px 20px 48px" }}>
       <p>
-        <Link href="/">← Search</Link>
+        <Link href="/">← Search</Link> · <Link href="/admin/metrics">Metrics</Link> ·{" "}
+        <Link href="/admin/reports">Reports</Link>
       </p>
       <h1>Moderation queue</h1>
 
