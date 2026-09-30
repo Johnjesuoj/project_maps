@@ -3,10 +3,8 @@ import path from "node:path";
 
 // Stage 3 store: JSON-file backed claims + corrections.
 // Mirrors Prisma `Claim` / `Correction` (see prisma/schema.prisma).
-// Admin decisions mutate `locations.json` (badge flips to owner_verified,
-// confirmed corrections patch the location). Auth-gating (QUBATORS_ADMIN via
-// Auth.js `requireRole`) lands with the Auth phase — these routes are open
-// locally for now.
+// Admin decisions are gated by `requireRole` (QUBATORS_ADMIN / CONSULTANT);
+// middleware additionally gates /admin/* pages + /api/admin/* routes.
 
 export type ClaimStatus = "pending" | "approved" | "rejected";
 export type CorrectionStatus = "pending" | "confirmed" | "dismissed";

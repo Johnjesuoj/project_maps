@@ -2,11 +2,16 @@ import { NextResponse } from "next/server";
 import { decideClaim } from "@/lib/trust";
 import { getLocation, setVerificationStatus } from "@/lib/locations";
 import { sendEmail } from "@/lib/email";
+import { requireRole, roleErrorResponse } from "@/lib/requireRole";
 import { claimDecisionSchema } from "@/lib/validation";
 
-// POST /api/admin/claims/[id] { action: approve|reject }
-// Open locally for now — QUBATORS_ADMIN `requireRole` lands with Auth.js.
+// POST /api/admin/claims/[id] { action: approve|reject } — QUBATORS_ADMIN only.
 export async function POST(req: Request, { params }: { params: { id: string } }) {
+  try {
+    await requireRole(["QUBATORS_ADMIN"]);
+  } catch (e) {
+    return roleErrorResponse(e);
+  }
   const body = await req.json().catch(() => null);
   const parsed = claimDecisionSchema.safeParse(body);
   if (!parsed.success) {
