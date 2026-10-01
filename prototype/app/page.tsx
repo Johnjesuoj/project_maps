@@ -2,14 +2,51 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { LocationCard } from "@/components/LocationCard";
 import type { LocationRecord } from "@/lib/locations";
+import type { PlaceCandidate } from "@/lib/places";
 
 export default function Page() {
+  const router = useRouter();
   const [q, setQ] = useState("");
   const [rows, setRows] = useState<LocationRecord[]>([]);
   const [loading, setLoading] = useState(true);
+  const [google, setGoogle] = useState<PlaceCandidate[] | null>(null);
+  const [googleState, setGoogleState] = useState<"idle" | "loading" | "error" | "unconfigured" | "done">("idle");
 
+  async function searchGoogle() {
+    setGoogleState("loading");
+    try {
+      const res = await fetch(`/api/places?q=${encodeURIComponent(q)}`);
+      if (res.status === 503) {
+        setGoogleState("unconfigured");
+        return;
+      }
+      if (!res.ok) throw new Error();
+      setGoogle(await res.json());
+      setGoogleState("done");
+    } catch {
+      setGoogleState("error");
+    }
+  }
+
+  async function importPlace(p: PlaceCandidate) {
+    const res = await fetch("/api/places", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        name: p.name,
+        address: p.address,
+        googlePlaceId: p.googlePlaceId,
+        finalDirections: "Directions not yet added — claim and describe this place.",
+      }),
+    });
+    if (res.ok) {
+      const row = await res.json();
+      router.push(`/locations/${row.id}`);
+    }
+  }
   useEffect(() => {
     const t = setTimeout(async () => {
       setLoading(true);
@@ -66,6 +103,28 @@ export default function Page() {
         <LocationCard key={l.id} location={l} />
       ))}
       {!loading && rows.length === 0 && <p>No matches. Try “estate”, “pharmacy”, or create a new location.</p>}
+
+      <h2 style={{ fontSize: 18, margin: "24px 0 10px" }}>More from Google</h2>
+      <button type="button" onClick={searchGoogle} disabled={googleState === "loading" || q.trim().length < 2}>
+        {googleState === "loading" ? "Searching Google…" : "Search Google too"}
+      </button>
+      {googleState === "unconfigured" && (
+        <p style={{ color: "#5A6B60" }}>
+          Google Places needs an API key — add <code>GOOGLE_MAPS_API_KEY</code> to <code>prototype/.env</code> and
+          restart the dev server.
+        </p>
+      )}
+      {googleState === "error" && <p style={{ color: "crimson" }}>Google search failed — try again.</p>}
+      {googleState === "done" &&
+        (google ?? []).map((p) => (
+          <div key={p.googlePlaceId} style={{ background: "#fff", border: "1px solid #DCE5DD", borderRadius: 12, padding: 16, marginTop: 8 }}>
+            <p style={{ margin: "0 0 4px", fontWeight: 650 }}>{p.name}</p>
+            <p style={{ margin: "0 0 8px", color: "#5A6B60", fontSize: 14 }}>{p.address}</p>
+            <button type="button" onClick={() => importPlace(p)}>
+              Import as location
+            </button>
+          </div>
+        ))}
     </main>
   );
 }
