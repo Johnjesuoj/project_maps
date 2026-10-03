@@ -21,12 +21,15 @@ Dense, instrument-like tactical luxury. A night-operations map room: near-black 
 - Alarm Red (#FF0044 pure, #FF5C85 text) — destructive/report actions only.
 - Hairline Border (#2F3A41, subtle 60% variant) — card and control outlines.
 
-## 3. Typography Rules
-- Inter for everything prose; JetBrains Mono for instrument labels.
-- Hero/display: Inter Light (300), tight negative tracking (-0.03em), 44px desktop / 34px mobile.
-- Headlines: Inter SemiBold (600), -0.02em tracking, 30/22/20px scale.
-- Body: Inter Regular 15–17px, relaxed 1.45 line height.
-- Micro-labels: JetBrains Mono Medium, 11.5–13px, wide tracking (0.10–0.12em), always uppercase (e.g. OWNER VERIFIED, STAGE 3 / 5, LIVE RADAR).
+## 3. Typography Rules (prototype implementation)
+Single family only: Montserrat (300–800 + italic 400). Hierarchy comes from
+weight, tracking, and case — never from a second family. This deliberately
+diverges from the Stitch source (Inter + JetBrains Mono) per product decision.
+- Hero/display: Montserrat Light (300), tight negative tracking (-0.03em), 44px desktop / 34px mobile.
+- Headlines: Montserrat SemiBold/ExtraBold (600–800), -0.02em tracking, 30/22/20px scale.
+- Body: Montserrat Regular/Medium (400–500), 15–17px, relaxed 1.45 line height.
+- Micro-labels: Montserrat Bold (700), 12px, wide tracking (0.12em), always uppercase
+  (e.g. OWNER VERIFIED, STAGE 3 / 5, LIVE RADAR) — the instrument voice without a mono face.
 
 ## 4. Component Stylings
 * **Buttons:** Pill-shaped primary actions with mint-to-cyan gradient fill, deep-pine text, and a soft mint halo shadow; press compresses slightly. Secondary actions are quiet nested-well pills with ice text.
