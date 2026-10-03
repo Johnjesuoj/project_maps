@@ -39,11 +39,11 @@ export function LandmarkEditor({
   }
 
   return (
-    <div style={{ border: "1px solid #2F3A41", borderRadius: 10, padding: 12, marginTop: 16 }}>
+    <div style={{ border: "1px solid var(--border)", borderRadius: 10, padding: 12, marginTop: 16 }}>
       <p style={{ margin: "0 0 8px", fontWeight: 650 }}>Landmarks</p>
       <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 8 }}>
         {LANDMARK_TAXONOMY.map((t) => (
-          <label key={t} style={{ border: "1px solid #2F3A41", borderRadius: 999, padding: "6px 12px", cursor: "pointer", background: selected.includes(t) ? "rgba(42, 255, 216, 0.12)" : "#232B32" }}>
+          <label key={t} style={{ border: "1px solid var(--border)", borderRadius: 999, padding: "6px 12px", cursor: "pointer", background: selected.includes(t) ? "var(--mint-soft)" : "var(--surface-nested)" }}>
             <input type="checkbox" checked={selected.includes(t)} onChange={() => toggle(t)} /> {t}
           </label>
         ))}

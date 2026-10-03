@@ -36,7 +36,7 @@ export function AlertComposer({ locationId }: { locationId?: string }) {
   }
 
   return (
-    <div style={{ border: "1px solid #2F3A41", borderRadius: 10, padding: 12, marginTop: 16 }}>
+    <div style={{ border: "1px solid var(--border)", borderRadius: 10, padding: 12, marginTop: 16 }}>
       <p style={{ margin: "0 0 8px", fontWeight: 650 }}>Report a road condition</p>
       <select value={type} onChange={(e) => setType(e.target.value)} style={{ padding: 10, marginBottom: 8 }}>
         {ALERT_TYPES.map((t) => (

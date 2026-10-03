@@ -35,7 +35,7 @@ export function PhotoUploader({ locationId }: { locationId: string }) {
   }
 
   return (
-    <div style={{ border: "1px solid #2F3A41", borderRadius: 10, padding: 12, marginTop: 16 }}>
+    <div style={{ border: "1px solid var(--border)", borderRadius: 10, padding: 12, marginTop: 16 }}>
       <p style={{ margin: "0 0 8px", fontWeight: 650 }}>Add a visual reference</p>
       <select value={tag} onChange={(e) => setTag(e.target.value as PhotoTag)} style={{ padding: 10, marginBottom: 8 }}>
         {PHOTO_TAGS.map((t) => (
@@ -54,7 +54,7 @@ export function PhotoUploader({ locationId }: { locationId: string }) {
         {state === "saving" ? "Uploading…" : "Upload photo"}
       </button>
       {error && <p style={{ color: "crimson" }}>{error}</p>}
-      <p style={{ color: "#8A969C", fontSize: 13 }}>JPEG/PNG/WebP, max 5MB, stored in reference-photos.</p>
+      <p style={{ color: "var(--ink-muted)", fontSize: 13 }}>JPEG/PNG/WebP, max 5MB, stored in reference-photos.</p>
     </div>
   );
 }

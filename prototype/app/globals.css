@@ -1,7 +1,11 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap");
 
-/* Nocturne Tactical Navigation tokens (see DESIGN.md) */
-:root {
+/* Nocturne tokens (see DESIGN.md) — dark default, light override.
+   Type: Montserrat only. Hierarchy comes from weight + tracking + case,
+   never from a second family. */
+
+:root,
+[data-theme="dark"] {
   --bg-canvas: #060e16;
   --surface: #0d141a;
   --surface-default: #1a2127;
@@ -21,6 +25,26 @@
   --danger: #ff5c85;
 }
 
+[data-theme="light"] {
+  --bg-canvas: #f2f6f4;
+  --surface: #ffffff;
+  --surface-default: #ffffff;
+  --surface-nested: #e7eeea;
+  --surface-elevated: #ffffff;
+  --surface-inset: #eaf0ed;
+  --border: #d3ddd8;
+  --ink: #12291f;
+  --ink-strong: #0a1f17;
+  --ink-muted: #5a6b60;
+  --mint: #00725f;
+  --mint-dim: #006b59;
+  --mint-ink: #ffffff;
+  --mint-soft: rgba(0, 114, 95, 0.1);
+  --cyan: #0e7490;
+  --amber: #9a6b00;
+  --danger: #c81e4a;
+}
+
 html,
 body {
   background: var(--bg-canvas);
@@ -28,7 +52,7 @@ body {
 }
 
 body {
-  font-family: "Inter", system-ui, sans-serif;
+  font-family: "Montserrat", system-ui, sans-serif;
 }
 
 a {
@@ -41,6 +65,7 @@ button {
   border: 1px solid var(--border);
   border-radius: 999px;
   padding: 10px 18px;
+  font-family: "Montserrat", system-ui, sans-serif;
   font-weight: 600;
   cursor: pointer;
 }
@@ -57,12 +82,14 @@ select {
   color: var(--ink);
   border: 1px solid var(--border);
   border-radius: 10px;
+  font-family: "Montserrat", system-ui, sans-serif;
 }
 
 .mono-label {
-  font-family: "JetBrains Mono", monospace;
+  font-family: "Montserrat", system-ui, sans-serif;
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.12em;
   font-size: 12px;
   color: var(--mint);
 }

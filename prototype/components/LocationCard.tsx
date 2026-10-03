@@ -17,12 +17,12 @@ export function verificationLabel(s: LocationRecord["verificationStatus"]): stri
 export function LocationCard({ location }: { location: LocationRecord }) {
   return (
     <article
-      style={{ background: "#1A2127", border: "1px solid #2F3A41", borderRadius: 12, padding: 20, marginBottom: 12 }}
+      style={{ background: "var(--surface-default)", border: "1px solid var(--border)", borderRadius: 12, padding: 20, marginBottom: 12 }}
     >
       <h3 style={{ margin: "0 0 4px" }}>
         <Link href={`/locations/${location.id}`}>{location.name}</Link>
       </h3>
-      <p style={{ margin: "0 0 8px", color: "#8A969C", fontSize: 14 }}>{location.address}</p>
+      <p style={{ margin: "0 0 8px", color: "var(--ink-muted)", fontSize: 14 }}>{location.address}</p>
       <p style={{ margin: "0 0 6px", fontSize: 15 }}>
         <strong>Final directions:</strong> {location.finalDirections}
       </p>
@@ -31,7 +31,7 @@ export function LocationCard({ location }: { location: LocationRecord }) {
           <strong>Look for:</strong> {location.lookFor}
         </p>
       )}
-      <p style={{ margin: 0, fontSize: 13, color: "#8A969C" }}>✓ {verificationLabel(location.verificationStatus)}</p>
+      <p style={{ margin: 0, fontSize: 13, color: "var(--ink-muted)" }}>✓ {verificationLabel(location.verificationStatus)}</p>
     </article>
   );
 }

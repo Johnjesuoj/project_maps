@@ -57,7 +57,7 @@ export default async function LocationDetailPage({ params }: { params: { id: str
         <Link href="/admin/metrics">Metrics</Link> · <Link href="/admin/reports">Reports</Link>
       </p>
       {breadcrumb.length > 0 && (
-        <p style={{ fontSize: 14, color: "#8A969C" }}>
+        <p style={{ fontSize: 14, color: "var(--ink-muted)" }}>
           Inside:{" "}
           {breadcrumb.map((b) => (
             <span key={b.id}>
@@ -75,7 +75,7 @@ export default async function LocationDetailPage({ params }: { params: { id: str
         </p>
       )}
       <h1 style={{ fontSize: 26, margin: "8px 0" }}>{location.name}</h1>
-      <p style={{ color: "#8A969C" }}>{location.address} · {location.category}</p>
+      <p style={{ color: "var(--ink-muted)" }}>{location.address} · {location.category}</p>
       <ConfidenceLine location={location} confirmations={confirmations} />
       <p>
         <ReportButton targetType="location" targetId={location.id} />
@@ -96,7 +96,7 @@ export default async function LocationDetailPage({ params }: { params: { id: str
         </>
       )}
       {location.landmarks.length > 0 && (
-        <p style={{ color: "#8A969C" }}>Landmarks: {location.landmarks.join(", ")}</p>
+        <p style={{ color: "var(--ink-muted)" }}>Landmarks: {location.landmarks.join(", ")}</p>
       )}
       <PhotoGallery photos={photos} />
       <h2>Current conditions</h2>

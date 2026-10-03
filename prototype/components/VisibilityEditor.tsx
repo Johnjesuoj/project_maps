@@ -21,7 +21,7 @@ export function VisibilityEditor({ location }: { location: LocationRecord }) {
   }
 
   return (
-    <div style={{ border: "1px solid #2F3A41", borderRadius: 10, padding: 12, marginTop: 16 }}>
+    <div style={{ border: "1px solid var(--border)", borderRadius: 10, padding: 12, marginTop: 16 }}>
       <p style={{ margin: "0 0 8px", fontWeight: 650 }}>Who can discover this place?</p>
       <select value={visibility} onChange={(e) => setVisibility(e.target.value as LocationRecord["visibility"])} style={{ padding: 10, marginBottom: 8 }}>
         <option value="public">Public — listed in search</option>

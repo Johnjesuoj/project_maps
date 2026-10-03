@@ -24,7 +24,7 @@ export function ClaimButton({ locationId }: { locationId: string }) {
   if (state === "done") return <p>✓ Claim submitted — pending review.</p>;
 
   return (
-    <div style={{ border: "1px solid #2F3A41", borderRadius: 10, padding: 12, marginTop: 16 }}>
+    <div style={{ border: "1px solid var(--border)", borderRadius: 10, padding: 12, marginTop: 16 }}>
       <p style={{ margin: "0 0 8px", fontWeight: 650 }}>Is this your business?</p>
       <input
         value={note}

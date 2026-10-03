@@ -25,7 +25,7 @@ export function ReportButton({
     }
   }
 
-  if (done) return <span style={{ fontSize: 13, color: "#8A969C" }}>✓ Reported</span>;
+  if (done) return <span style={{ fontSize: 13, color: "var(--ink-muted)" }}>✓ Reported</span>;
   if (!open)
     return (
       <button type="button" onClick={() => setOpen(true)} style={{ fontSize: 13 }}>

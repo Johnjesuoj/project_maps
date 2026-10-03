@@ -22,22 +22,22 @@ export default async function LocationTreePage({ params }: { params: { id: strin
         <strong>{location.name}</strong>
       </p>
       <h1 style={{ fontSize: 24 }}>{location.name}</h1>
-      <p style={{ color: "#8A969C" }}>
+      <p style={{ color: "var(--ink-muted)" }}>
         {location.level} · {location.address}
       </p>
       <p>{location.finalDirections}</p>
 
       <h2>Inside this place ({children.length})</h2>
       {children.map((c) => (
-        <div key={c.id} style={{ border: "1px solid #2F3A41", borderRadius: 10, padding: 12, marginBottom: 8 }}>
+        <div key={c.id} style={{ border: "1px solid var(--border)", borderRadius: 10, padding: 12, marginBottom: 8 }}>
           <p style={{ margin: 0 }}>
             <Link href={`/locations/${c.id}/tree`}>{c.name}</Link>{" "}
-            <span style={{ color: "#8A969C", fontSize: 13 }}>· {c.level}</span>
+            <span style={{ color: "var(--ink-muted)", fontSize: 13 }}>· {c.level}</span>
           </p>
           <p style={{ margin: "4px 0 0", fontSize: 14 }}>{c.finalDirections}</p>
         </div>
       ))}
-      {children.length === 0 && <p style={{ color: "#8A969C" }}>Nothing nested here — this is the destination door.</p>}
+      {children.length === 0 && <p style={{ color: "var(--ink-muted)" }}>Nothing nested here — this is the destination door.</p>}
 
       <p style={{ marginTop: 16 }}>
         <Link href={`/locations/${location.id}`}>Open full profile →</Link>
