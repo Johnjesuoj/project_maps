@@ -1,0 +1,370 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Project Maps — Design Tokens v2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    /* Surfaces */
+    --bg: #060E16;            /* app / page background */
+    --surface: #1A2127;       /* cards, bottom sheets */
+    --surface-2: #232B32;     /* nested panels, inputs */
+    --surface-3: #2C363D;     /* raised panels (code panel) */
+    --border: #2F3A41;
+
+    /* Text */
+    --ink: #E0D8D8;           /* primary text (off-white from palette) */
+    --ink-strong: #FFFFFF;
+    --mint: #D8EBE4;          /* display headings */
+    --muted: #8A969C;
+
+    /* Brand */
+    --primary: #2AFFD8;       /* teal: main actions, verified, active */
+    --primary-ink: #04201B;   /* text on teal */
+    --primary-soft: rgba(42,255,216,0.12);
+    --primary-deep: #1C4A44;  /* secondary pill background */
+    --danger: #FF0044;        /* SOS, road closed, urgent */
+    --danger-soft: rgba(255,0,68,0.14);
+    --neutral: #4E4E57;       /* disabled, inactive */
+    --warn: #F2B705;          /* temporary notices, caution */
+    --warn-soft: rgba(242,183,5,0.14);
+
+    --radius-sm: 10px;
+    --radius: 16px;
+    --radius-lg: 24px;
+    --radius-pill: 999px;
+    --font: "Inter Tight", "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: var(--font); background: var(--bg); color: var(--ink); -webkit-font-smoothing: antialiased; }
+  .wrap { max-width: 960px; margin: 0 auto; padding: 40px 20px 64px; }
+
+  /* Page header */
+  .kicker { font-family: var(--mono); font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+  h1 { font-size: clamp(34px, 7vw, 56px); font-weight: 300; margin: 8px 0 8px; letter-spacing: -0.03em; color: var(--mint); line-height: 1.05; }
+  h2 { font-size: 13px; margin: 0 0 14px; font-family: var(--mono); font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+  p.sub { color: var(--muted); margin: 0 0 8px; max-width: 56ch; line-height: 1.5; }
+
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 22px; margin: 16px 0; }
+  .row { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+  .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; }
+
+  /* Swatches */
+  .swatches { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 12px; }
+  .swatch { border: 1px solid var(--border); border-radius: var(--radius-sm); overflow: hidden; background: var(--surface-2); }
+  .chip { height: 56px; }
+  .meta { padding: 8px 10px; font-size: 12px; font-family: var(--mono); color: var(--ink); line-height: 1.4; }
+  .meta b { display: block; font-weight: 500; color: var(--ink-strong); }
+
+  /* Type scale */
+  .type-sample { display: grid; gap: 10px; }
+  .weights { display: flex; flex-wrap: wrap; gap: 18px; font-size: 20px; color: var(--ink); }
+  .weights sup { font-size: 10px; color: var(--muted); font-family: var(--mono); }
+
+  /* Buttons */
+  .btn { appearance: none; border: 0; border-radius: var(--radius-pill); padding: 15px 26px; font-family: inherit; font-weight: 600; font-size: 15px; letter-spacing: -0.005em; cursor: pointer;
+    background: linear-gradient(90deg, #2AFFD8, #1FD9F2); color: var(--primary-ink);
+    box-shadow: 0 8px 24px rgba(42,255,216,0.22); transition: transform 120ms ease, box-shadow 120ms ease, filter 120ms ease; }
+  .btn:hover { filter: brightness(1.06); box-shadow: 0 10px 28px rgba(42,255,216,0.3); }
+  .btn:active { transform: translateY(1px); box-shadow: 0 4px 12px rgba(42,255,216,0.2); }
+  .btn:focus-visible, .icon-btn:focus-visible, .chip-btn:focus-visible { outline: 2px solid var(--primary); outline-offset: 3px; }
+  .btn[disabled] { background: var(--neutral); color: rgba(224,216,216,0.55); box-shadow: none; cursor: not-allowed; opacity: .8; }
+  .btn.block { width: 100%; }
+  .btn.sm { padding: 9px 16px; font-size: 13px; }
+  .btn.soft { background: var(--primary-deep); color: var(--primary); box-shadow: none; }
+  .btn.ghost { background: transparent; color: var(--ink); border: 1px solid var(--border); box-shadow: none; }
+  .btn.sos { background: var(--danger); color: #fff; box-shadow: 0 8px 24px rgba(255,0,68,0.3); display: inline-flex; align-items: center; gap: 8px; }
+
+  .icon-btn { width: 44px; height: 44px; border-radius: 50%; border: 0; background: rgba(6,14,22,0.82); color: var(--ink); display: inline-grid; place-items: center; cursor: pointer; border: 1px solid var(--border); }
+  .icon-btn.primary { background: var(--primary); color: var(--primary-ink); border: 0; box-shadow: 0 6px 18px rgba(42,255,216,0.28); }
+  .icon-btn svg { width: 20px; height: 20px; }
+
+  /* Inputs */
+  .field { display: grid; gap: 8px; margin-top: 4px; }
+  label { font-size: 13px; color: var(--muted); font-weight: 500; }
+  input[type="text"] { padding: 14px 16px; border-radius: var(--radius); border: 1px solid var(--border); font-size: 15px; font-family: inherit; background: var(--surface-2); color: var(--ink-strong); }
+  input[type="text"]::placeholder { color: var(--muted); }
+  input[type="text"]:focus { outline: 2px solid var(--primary); outline-offset: 1px; border-color: var(--primary); }
+
+  /* Code boxes (add friends → join location / claim code) */
+  .code-panel { background: var(--surface-3); border-radius: var(--radius-lg); padding: 18px; display: grid; gap: 14px; }
+  .code-big { font-size: 34px; font-weight: 700; letter-spacing: 0.04em; color: var(--ink-strong); text-align: center; }
+  .code-big small { font-size: 12px; font-weight: 400; letter-spacing: 0; color: var(--muted); display: block; margin-top: 4px; }
+  .code-boxes { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; }
+  .code-boxes span { aspect-ratio: 1 / 1.15; border-radius: 12px; background: #0B1319; border: 1px solid var(--border); display: grid; place-items: center; font-size: 26px; font-weight: 600; color: var(--ink-strong); }
+  .code-boxes.filled span { border-color: rgba(42,255,216,0.45); box-shadow: inset 0 0 0 1px rgba(42,255,216,0.2); }
+
+  /* Map marker (avatar ring) */
+  .map-demo { position: relative; height: 200px; border-radius: var(--radius-lg); overflow: hidden; border: 1px solid var(--border);
+    background:
+      radial-gradient(circle at 70% 30%, rgba(42,255,216,0.07), transparent 40%),
+      linear-gradient(135deg, #0E1A22, #0A141B);
+  }
+  .map-demo::before { content: ""; position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(224,216,216,0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(224,216,216,0.05) 1px, transparent 1px);
+    background-size: 36px 36px; transform: rotate(-8deg) scale(1.4); }
+  .marker { position: absolute; width: 46px; height: 46px; border-radius: 50%; border: 3px solid var(--primary); background: var(--surface-3); display: grid; place-items: center; font-weight: 600; color: var(--mint); box-shadow: 0 0 0 6px rgba(42,255,216,0.12); }
+  .marker.pin { border-radius: 50% 50% 50% 8px; transform: rotate(-45deg); width: 38px; height: 38px; background: var(--primary); border: 0; color: var(--primary-ink); box-shadow: 0 0 0 8px rgba(42,255,216,0.14); }
+  .marker.pin i { transform: rotate(45deg); font-style: normal; font-weight: 700; }
+  .marker.alert { border-color: var(--danger); box-shadow: 0 0 0 10px var(--danger-soft); color: #fff; background: var(--danger); }
+  .m1 { left: 18%; top: 42%; } .m2 { left: 52%; top: 22%; } .m3 { left: 70%; top: 58%; }
+
+  /* Bottom sheet + list rows */
+  .sheet { background: #131A1F; border-radius: 24px 24px 18px 18px; padding: 10px 16px 14px; border: 1px solid var(--border); }
+  .grabber { width: 40px; height: 4px; border-radius: 4px; background: var(--neutral); margin: 0 auto 12px; }
+  .sheet-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+  .sheet-head b { font-size: 20px; font-weight: 600; color: var(--ink-strong); letter-spacing: -0.01em; }
+  .list-row { display: flex; align-items: center; gap: 12px; padding: 10px 6px; border-radius: 14px; }
+  .list-row + .list-row { border-top: 1px solid rgba(47,58,65,0.6); }
+  .avatar { width: 44px; height: 44px; border-radius: 50%; background: var(--surface-3); display: grid; place-items: center; font-weight: 600; color: var(--mint); border: 2px solid var(--primary); flex: none; }
+  .list-row .t { font-weight: 600; color: var(--ink-strong); font-size: 15px; }
+  .list-row .s { font-size: 12.5px; color: var(--muted); margin-top: 2px; }
+  .grow { flex: 1; min-width: 0; }
+
+  /* Badges / verification */
+  .badge { display: inline-flex; align-items: center; gap: 6px; padding: 5px 11px; border-radius: var(--radius-pill); font-size: 12.5px; font-weight: 500; background: var(--primary-soft); color: var(--primary); }
+  .badge.unverified { background: rgba(78,78,87,0.35); color: var(--ink); }
+  .badge.community { background: rgba(31,217,242,0.12); color: #6FE6F7; }
+  .badge.warn { background: var(--warn-soft); color: var(--warn); }
+  .badge.danger { background: var(--danger-soft); color: #FF5C85; }
+  .badge svg { width: 13px; height: 13px; }
+
+  /* Alert card (live conditions) */
+  .alert-card { display: flex; gap: 12px; padding: 14px; border-radius: var(--radius); background: var(--danger-soft); border: 1px solid rgba(255,0,68,0.35); }
+  .alert-card .ico { width: 38px; height: 38px; border-radius: 12px; background: var(--danger); display: grid; place-items: center; color: #fff; flex: none; font-size: 18px; }
+  .alert-card.warn { background: var(--warn-soft); border-color: rgba(242,183,5,0.35); }
+  .alert-card.warn .ico { background: var(--warn); color: #231B00; }
+  .alert-card b { color: var(--ink-strong); font-weight: 600; }
+  .alert-card p { margin: 4px 0 10px; font-size: 13.5px; color: var(--ink); line-height: 1.4; }
+  .alert-actions { display: flex; gap: 8px; }
+
+  /* Stage stepper (navigation) */
+  .stages { display: flex; gap: 6px; }
+  .stage { flex: 1; text-align: center; font-size: 11.5px; color: var(--muted); }
+  .stage::before { content: ""; display: block; height: 4px; border-radius: 4px; background: var(--neutral); margin-bottom: 8px; }
+  .stage.done::before { background: var(--primary-deep); }
+  .stage.on { color: var(--primary); font-weight: 600; }
+  .stage.on::before { background: var(--primary); box-shadow: 0 0 10px rgba(42,255,216,0.5); }
+
+  /* Location card (shareable) */
+  .loc-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; }
+  .loc-photo { height: 120px; background: linear-gradient(135deg, #1D2B33, #0F1A21); display: flex; align-items: flex-end; padding: 12px; gap: 8px; }
+  .loc-photo .thumb { width: 64px; height: 64px; border-radius: 12px; background: var(--surface-3); border: 1px solid var(--border); display: grid; place-items: center; font-size: 11px; color: var(--muted); text-align: center; }
+  .loc-body { padding: 16px 18px 18px; display: grid; gap: 14px; }
+  .loc-body h3 { margin: 0; font-size: 22px; font-weight: 600; letter-spacing: -0.02em; color: var(--ink-strong); }
+  .loc-body .addr { color: var(--muted); font-size: 13.5px; margin-top: 2px; }
+  .sect-label { font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+  .tags { display: flex; flex-wrap: wrap; gap: 8px; }
+  .tag { padding: 6px 12px; border-radius: var(--radius-pill); background: var(--surface-2); border: 1px solid var(--border); font-size: 13px; }
+
+  /* Settings rows + toggle */
+  .set-row { display: flex; align-items: center; gap: 12px; padding: 14px 4px; border-bottom: 1px solid rgba(47,58,65,0.6); color: var(--ink); font-size: 15px; }
+  .set-row:last-child { border-bottom: 0; }
+  .set-row .v { margin-left: auto; color: var(--muted); font-size: 14px; }
+  .toggle { margin-left: auto; width: 46px; height: 28px; border-radius: 28px; background: var(--primary); position: relative; }
+  .toggle::after { content: ""; position: absolute; top: 3px; right: 3px; width: 22px; height: 22px; border-radius: 50%; background: #04201B; }
+  .toggle.off { background: var(--neutral); }
+  .toggle.off::after { right: auto; left: 3px; background: var(--ink); }
+
+  /* Hold button (SOS / report) */
+  .hold-wrap { display: grid; place-items: center; padding: 10px 0; }
+  .hold-ring { width: 150px; height: 150px; border-radius: 50%; background: rgba(224,216,216,0.08); display: grid; place-items: center; }
+  .hold { width: 108px; height: 108px; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #F2EEEE, #A9A4A4); color: #111; font-weight: 700; font-size: 20px; display: grid; place-items: center; }
+
+  .footer-note { margin-top: 28px; font-family: var(--mono); font-size: 12px; color: var(--muted); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="kicker">© 2026 · Project Maps · Design tokens v2</div>
+  <h1>From the road<br/>to the door.</h1>
+  <p class="sub">Dark, map-first UI with a teal action colour and a red reserved for urgency. Local preview only.</p>
+
+  <!-- COLORS -->
+  <div class="card">
+    <h2>Colour</h2>
+    <div class="swatches">
+      <div class="swatch"><div class="chip" style="background:#060E16"></div><div class="meta"><b>--bg</b>#060E16</div></div>
+      <div class="swatch"><div class="chip" style="background:#1A2127"></div><div class="meta"><b>--surface</b>#1A2127</div></div>
+      <div class="swatch"><div class="chip" style="background:#232B32"></div><div class="meta"><b>--surface-2</b>#232B32</div></div>
+      <div class="swatch"><div class="chip" style="background:#E0D8D8"></div><div class="meta"><b>--ink</b>#E0D8D8</div></div>
+      <div class="swatch"><div class="chip" style="background:#2AFFD8"></div><div class="meta"><b>--primary</b>#2AFFD8</div></div>
+      <div class="swatch"><div class="chip" style="background:#FF0044"></div><div class="meta"><b>--danger</b>#FF0044</div></div>
+      <div class="swatch"><div class="chip" style="background:#4E4E57"></div><div class="meta"><b>--neutral</b>#4E4E57</div></div>
+      <div class="swatch"><div class="chip" style="background:#F2B705"></div><div class="meta"><b>--warn</b>#F2B705</div></div>
+    </div>
+  </div>
+
+  <!-- TYPOGRAPHY -->
+  <div class="card">
+    <h2>Typography · Inter Tight</h2>
+    <div class="type-sample">
+      <div class="weights">
+        <span style="font-weight:300">Light<sup>300</sup></span>
+        <span style="font-weight:400">Regular<sup>400</sup></span>
+        <span style="font-weight:500">Medium<sup>500</sup></span>
+        <span style="font-weight:600">SemiBold<sup>600</sup></span>
+        <span style="font-weight:700">Bold<sup>700</sup></span>
+      </div>
+      <div style="font-size:30px;font-weight:600;letter-spacing:-0.025em;color:var(--ink-strong)">Heading — From the road to the door</div>
+      <div style="font-size:16px;line-height:1.5">Body — Maps get you close. We get you there. Verified location guides with photos and landmarks.</div>
+      <div style="font-size:13px;color:var(--muted)">Caption — Owner verified · Updated 3 days ago</div>
+      <div style="font-family:var(--mono);font-size:12px;letter-spacing:.1em;color:var(--muted)">LABEL · JETBRAINS MONO · UPPERCASE</div>
+    </div>
+  </div>
+
+  <!-- BUTTONS -->
+  <div class="card">
+    <h2>Buttons</h2>
+    <div class="row">
+      <button class="btn" type="button">Find my way</button>
+      <button class="btn soft" type="button">Send code</button>
+      <button class="btn ghost" type="button">Share</button>
+      <button class="btn sos" type="button">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3.5"/></svg>
+        Report
+      </button>
+      <button class="btn" type="button" disabled>Disabled</button>
+    </div>
+    <div class="row" style="margin-top:14px">
+      <button class="icon-btn" aria-label="Map layers" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2-6-2Z"/><path d="M9 4v14M15 6v14"/></svg></button>
+      <button class="icon-btn" aria-label="Settings" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9 7 7M17 17l2.1 2.1M19.1 4.9 17 7M7 17l-2.1 2.1"/></svg></button>
+      <button class="icon-btn" aria-label="Recenter" type="button"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 3 3 10.5l7.2 2.3L12.5 20 21 3Z"/></svg></button>
+      <button class="icon-btn primary" aria-label="Add location" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></button>
+    </div>
+  </div>
+
+  <!-- INPUTS -->
+  <div class="card">
+    <h2>Inputs</h2>
+    <div class="field">
+      <label for="dest">Where are you going?</label>
+      <input id="dest" type="text" placeholder="e.g. pharmacy beside the big church in Ikeja" value="" />
+    </div>
+    <div class="code-panel" style="margin-top:18px">
+      <div class="code-big">6Y8EF9<small>Share this claim / join code, or dictate it in a message</small></div>
+      <div style="text-align:center;font-size:13px;color:var(--ink)">Enter a code to open a shared location</div>
+      <div class="code-boxes"><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      <div class="code-boxes filled"><span>A</span><span>9</span><span>J</span><span>Y</span><span>1</span><span>2</span></div>
+      <button class="btn block" type="button">Open location</button>
+    </div>
+  </div>
+
+  <!-- MAP + SHEET -->
+  <div class="grid-2">
+    <div class="card">
+      <h2>Map markers</h2>
+      <div class="map-demo">
+        <div class="marker m1">OJ</div>
+        <div class="marker pin m2"><i>★</i></div>
+        <div class="marker alert m3">!</div>
+      </div>
+      <div class="row" style="margin-top:12px;font-size:13px;color:var(--muted)">Teal ring = person or place · Teal pin = destination · Red = live alert</div>
+    </div>
+
+    <div class="card">
+      <h2>Bottom sheet · list</h2>
+      <div class="sheet">
+        <div class="grabber"></div>
+        <div class="sheet-head"><b>Saved places</b><button class="icon-btn primary" aria-label="Add" type="button" style="width:38px;height:38px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></button></div>
+        <div class="list-row"><div class="avatar">BZ</div><div class="grow"><div class="t">BUZZ Creative Studio</div><div class="s">Ikeja, Lagos · 1.2 km</div></div><span class="badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="m5 12 5 5 9-10"/></svg>Owner</span></div>
+        <div class="list-row"><div class="avatar" style="border-color:#6FE6F7">GV</div><div class="grow"><div class="t">Greenview Estate</div><div class="s">Lekki, Lagos · 6.8 km</div></div><span class="badge community">Community</span></div>
+        <div class="list-row"><div class="avatar" style="border-color:var(--neutral)">PH</div><div class="grow"><div class="t">Pharmacy, Allen Ave</div><div class="s">Ikeja, Lagos · 3.1 km</div></div><span class="badge unverified">Unverified</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BADGES + ALERTS -->
+  <div class="grid-2">
+    <div class="card">
+      <h2>Verification badges</h2>
+      <div class="row">
+        <span class="badge unverified">Unverified</span>
+        <span class="badge community">✓ Community verified</span>
+        <span class="badge">✓ Resident verified</span>
+        <span class="badge">✓ Owner verified</span>
+      </div>
+      <p class="sub" style="margin-top:12px;font-size:13px">Updated 3 days ago · 14 community confirmations</p>
+    </div>
+
+    <div class="card">
+      <h2>Live conditions</h2>
+      <div style="display:grid;gap:10px">
+        <div class="alert-card">
+          <div class="ico">⛔</div>
+          <div class="grow">
+            <b>Road partially blocked</b>
+            <p>Heavy congestion near the junction. Reported 12 min ago. Alternative route available.</p>
+            <div class="alert-actions"><button class="btn sm soft" type="button">Still happening</button><button class="btn sm ghost" type="button">Cleared</button></div>
+          </div>
+        </div>
+        <div class="alert-card warn">
+          <div class="ico">⚠</div>
+          <div class="grow"><b>Main entrance closed today</b><p>Use the side entrance on the left.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STAGES -->
+  <div class="card">
+    <h2>Navigation stages</h2>
+    <div class="stages">
+      <div class="stage done">To area</div>
+      <div class="stage done">Nearby</div>
+      <div class="stage on">Final approach</div>
+      <div class="stage">Recognise</div>
+      <div class="stage">Arrived</div>
+    </div>
+    <p style="margin:16px 0 0;font-size:17px;color:var(--ink-strong);font-weight:500">Pass the security post and keep straight for about 100 m.</p>
+  </div>
+
+  <!-- LOCATION CARD -->
+  <div class="grid-2">
+    <div class="loc-card">
+      <div class="loc-photo"><div class="thumb">Blue gate</div><div class="thumb">White building</div><div class="thumb">Sign</div></div>
+      <div class="loc-body">
+        <div>
+          <h3>Oje’s Studio</h3>
+          <div class="addr">14 Example Street, Lagos</div>
+          <div style="margin-top:8px" class="row"><span class="badge">✓ Resident verified</span><span class="badge">🟢 Main entrance open</span></div>
+        </div>
+        <div>
+          <div class="sect-label">How to find me</div>
+          <div style="line-height:1.5">Enter through the second gate after the pharmacy.</div>
+        </div>
+        <div>
+          <div class="sect-label">Look for</div>
+          <div class="tags"><span class="tag">Blue gate</span><span class="tag">White two-storey building</span><span class="tag">BUZZ sign</span></div>
+        </div>
+        <button class="btn block" type="button">Navigate</button>
+      </div>
+    </div>
+
+    <div style="display:grid;gap:16px;align-content:start">
+      <div class="card" style="margin:0">
+        <h2>Settings rows</h2>
+        <div class="set-row">Permissions <span class="v">›</span></div>
+        <div class="set-row">Units <span class="v">Metric</span></div>
+        <div class="set-row">Share live battery <span class="toggle"></span></div>
+        <div class="set-row">Private link only <span class="toggle off"></span></div>
+      </div>
+      <div class="card" style="margin:0">
+        <h2>Hold to confirm</h2>
+        <div class="hold-wrap"><div class="hold-ring"><div class="hold">Hold</div></div></div>
+        <p class="sub" style="text-align:center;font-size:13px;margin:0 auto">Press and hold to report an emergency or post an urgent alert.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-note">Radius 16/24/pill · Teal = action · Red = urgent only · Amber = temporary notice</div>
+</div>
+</body>
+</html>
