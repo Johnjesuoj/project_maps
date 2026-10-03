@@ -40,7 +40,7 @@ export function CorrectionForm({ locationId }: { locationId: string }) {
   if (state === "done") return <p>✓ Correction reported — pending review.</p>;
 
   return (
-    <div style={{ border: "1px solid #DCE5DD", borderRadius: 10, padding: 12, marginTop: 16 }}>
+    <div style={{ border: "1px solid #2F3A41", borderRadius: 10, padding: 12, marginTop: 16 }}>
       <p style={{ margin: "0 0 8px", fontWeight: 650 }}>Report a problem</p>
       <select value={type} onChange={(e) => setType(e.target.value)} style={{ padding: 10, marginBottom: 8 }}>
         {TYPES.map((t) => (

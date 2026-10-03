@@ -34,7 +34,7 @@ export default function AdminReportsPage() {
       </p>
       <h1>Abuse reports ({pending.length} pending)</h1>
       {pending.map((r) => (
-        <div key={r.id} style={{ border: "1px solid #DCE5DD", borderRadius: 10, padding: 12, marginBottom: 8 }}>
+        <div key={r.id} style={{ border: "1px solid #2F3A41", borderRadius: 10, padding: 12, marginBottom: 8 }}>
           <p style={{ margin: 0 }}>
             <strong>{r.targetType}</strong> <code>{r.targetId}</code> — {r.reason}
           </p>

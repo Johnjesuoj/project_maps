@@ -56,7 +56,7 @@ export default function AdminQueuePage() {
 
       <h2>Pending claims ({pendingClaims.length})</h2>
       {pendingClaims.map((c) => (
-        <div key={c.id} style={{ border: "1px solid #DCE5DD", borderRadius: 10, padding: 12, marginBottom: 8 }}>
+        <div key={c.id} style={{ border: "1px solid #2F3A41", borderRadius: 10, padding: 12, marginBottom: 8 }}>
           <p style={{ margin: 0 }}>
             <Link href={`/locations/${c.locationId}`}>{nameOf(c.locationId)}</Link>
             {c.claimantNote ? ` — “${c.claimantNote}”` : ""}
@@ -75,7 +75,7 @@ export default function AdminQueuePage() {
 
       <h2>Pending corrections ({pendingCorrections.length})</h2>
       {pendingCorrections.map((c) => (
-        <div key={c.id} style={{ border: "1px solid #DCE5DD", borderRadius: 10, padding: 12, marginBottom: 8 }}>
+        <div key={c.id} style={{ border: "1px solid #2F3A41", borderRadius: 10, padding: 12, marginBottom: 8 }}>
           <p style={{ margin: 0 }}>
             <Link href={`/locations/${c.locationId}`}>{nameOf(c.locationId)}</Link> —{" "}
             <strong>{c.type.replace(/_/g, " ")}</strong>: {c.detail}

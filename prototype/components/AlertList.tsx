@@ -10,7 +10,7 @@ function ageInMinutes(iso: string): number {
 
 export function AlertList({ alerts }: { alerts: AlertRecord[] }) {
   const router = useRouter();
-  if (alerts.length === 0) return <p style={{ color: "#5A6B60" }}>No active alerts. 🟢</p>;
+  if (alerts.length === 0) return <p style={{ color: "#8A969C" }}>No active alerts. 🟢</p>;
 
   async function act(id: string, action: "confirm" | "clear") {
     await fetch(`/api/alerts/${id}`, {
@@ -24,11 +24,11 @@ export function AlertList({ alerts }: { alerts: AlertRecord[] }) {
   return (
     <div style={{ display: "grid", gap: 8 }}>
       {alerts.map((a) => (
-        <div key={a.id} style={{ border: "1px solid #DCE5DD", borderRadius: 10, padding: 12 }}>
+        <div key={a.id} style={{ border: "1px solid #2F3A41", borderRadius: 10, padding: 12 }}>
           <p style={{ margin: "0 0 4px" }}>
             🚧 <strong>{a.type}</strong> — {a.detail}
           </p>
-          <p style={{ margin: "0 0 8px", fontSize: 13, color: "#5A6B60" }}>
+          <p style={{ margin: "0 0 8px", fontSize: 13, color: "#8A969C" }}>
             Reported {ageInMinutes(a.reportedAt)}m ago
             {a.roadHint ? ` · ${a.roadHint}` : ""} · {a.confirms} confirmation{a.confirms === 1 ? "" : "s"}
           </p>

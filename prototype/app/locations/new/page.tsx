@@ -64,7 +64,7 @@ export default function NewLocationPage() {
   return (
     <main style={{ maxWidth: 720, margin: "0 auto", padding: "32px 20px 48px" }}>
       <h1 style={{ fontSize: 24 }}>Create a location</h1>
-      <p style={{ color: "#5A6B60" }}>
+      <p style={{ color: "#8A969C" }}>
         Step {step + 1} of {STEPS.length}: {STEPS[step]}
       </p>
 
@@ -133,7 +133,7 @@ export default function NewLocationPage() {
             What should visitors look for?
             <input value={lookFor} onChange={(e) => setLookFor(e.target.value)} placeholder="Blue gate · White building · Sign" style={{ display: "block", width: "100%", padding: 10, marginTop: 4 }} />
           </label>
-          <p style={{ color: "#5A6B60", fontSize: 14 }}>Photo uploads land in Phase 4 (R2/MinIO). Describe visuals in text for now.</p>
+          <p style={{ color: "#8A969C", fontSize: 14 }}>Photo uploads land in Phase 4 (R2/MinIO). Describe visuals in text for now.</p>
         </section>
       )}
 

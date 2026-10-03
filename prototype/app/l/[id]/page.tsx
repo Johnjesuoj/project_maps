@@ -18,7 +18,7 @@ export default async function ShareLandingPage({ params }: { params: { id: strin
     return (
       <main style={{ maxWidth: 640, margin: "0 auto", padding: "32px 20px 48px" }}>
         <p>Private residence — detailed directions available through shared link.</p>
-        <p style={{ color: "#5A6B60", fontSize: 13 }}>Access is limited to approved people.</p>
+        <p style={{ color: "#8A969C", fontSize: 13 }}>Access is limited to approved people.</p>
       </main>
     );
   }
@@ -26,9 +26,9 @@ export default async function ShareLandingPage({ params }: { params: { id: strin
 
   return (
     <main style={{ maxWidth: 640, margin: "0 auto", padding: "32px 20px 48px" }}>
-      <p style={{ color: "#5A6B60" }}>📍 Shared location</p>
+      <p style={{ color: "#8A969C" }}>📍 Shared location</p>
       <h1 style={{ fontSize: 26 }}>{location.name}</h1>
-      <p style={{ color: "#5A6B60" }}>{location.address}</p>
+      <p style={{ color: "#8A969C" }}>{location.address}</p>
       <p>
         <strong>How to find me:</strong> {location.finalDirections}
       </p>
@@ -38,7 +38,7 @@ export default async function ShareLandingPage({ params }: { params: { id: strin
         </p>
       )}
       <PhotoGallery photos={photos} />
-      <p style={{ color: "#5A6B60", fontSize: 13 }}>✓ {verificationLabel(location.verificationStatus)}</p>
+      <p style={{ color: "#8A969C", fontSize: 13 }}>✓ {verificationLabel(location.verificationStatus)}</p>
       <p>
         <ReportButton targetType="location" targetId={location.id} />
       </p>

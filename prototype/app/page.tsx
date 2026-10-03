@@ -67,15 +67,15 @@ export default function Page() {
       <h1 style={{ fontSize: 28, margin: "0 0 6px", letterSpacing: "-0.02em" }}>
         Project Maps — Working Prototype
       </h1>
-      <p style={{ margin: "0 0 16px", color: "#5A6B60" }}>
+      <p style={{ margin: "0 0 16px", color: "#8A969C" }}>
         From the road to the door. Phase 2: search → create → view → share. App + DB run locally; no deploy.
       </p>
       <p style={{ margin: "0 0 16px" }}>
         <Link href="/locations/new">+ Create a location</Link>
       </p>
 
-      <div style={{ background: "#fff", border: "1px solid #DCE5DD", borderRadius: 12, padding: 20 }}>
-        <label htmlFor="search" style={{ fontSize: 13, fontWeight: 600, color: "#5A6B60" }}>
+      <div style={{ background: "#1A2127", border: "1px solid #2F3A41", borderRadius: 12, padding: 20 }}>
+        <label htmlFor="search" style={{ fontSize: 13, fontWeight: 600, color: "#8A969C" }}>
           Where are you going?
         </label>
         <input
@@ -90,7 +90,7 @@ export default function Page() {
             marginTop: 8,
             padding: "12px 14px",
             borderRadius: 10,
-            border: "1px solid #DCE5DD",
+            border: "1px solid #2F3A41",
             fontSize: 15,
           }}
         />
@@ -109,7 +109,7 @@ export default function Page() {
         {googleState === "loading" ? "Searching Google…" : "Search Google too"}
       </button>
       {googleState === "unconfigured" && (
-        <p style={{ color: "#5A6B60" }}>
+        <p style={{ color: "#8A969C" }}>
           Google Places needs an API key — add <code>GOOGLE_MAPS_API_KEY</code> to <code>prototype/.env</code> and
           restart the dev server.
         </p>
@@ -117,9 +117,9 @@ export default function Page() {
       {googleState === "error" && <p style={{ color: "crimson" }}>Google search failed — try again.</p>}
       {googleState === "done" &&
         (google ?? []).map((p) => (
-          <div key={p.googlePlaceId} style={{ background: "#fff", border: "1px solid #DCE5DD", borderRadius: 12, padding: 16, marginTop: 8 }}>
+          <div key={p.googlePlaceId} style={{ background: "#1A2127", border: "1px solid #2F3A41", borderRadius: 12, padding: 16, marginTop: 8 }}>
             <p style={{ margin: "0 0 4px", fontWeight: 650 }}>{p.name}</p>
-            <p style={{ margin: "0 0 8px", color: "#5A6B60", fontSize: 14 }}>{p.address}</p>
+            <p style={{ margin: "0 0 8px", color: "#8A969C", fontSize: 14 }}>{p.address}</p>
             <button type="button" onClick={() => importPlace(p)}>
               Import as location
             </button>

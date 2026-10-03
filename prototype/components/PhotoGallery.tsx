@@ -18,7 +18,7 @@ export function PhotoGallery({ photos }: { photos: PhotoRecord[] }) {
           <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
             {items.map((p) => (
               // eslint-disable-next-line @next/next/no-img-element
-              <img key={p.id} src={p.url} alt={photoTagLabel(p.tag)} width={220} style={{ borderRadius: 8, border: "1px solid #DCE5DD" }} />
+              <img key={p.id} src={p.url} alt={photoTagLabel(p.tag)} width={220} style={{ borderRadius: 8, border: "1px solid #2F3A41" }} />
             ))}
           </div>
         </div>

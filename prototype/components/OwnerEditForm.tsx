@@ -29,7 +29,7 @@ export function OwnerEditForm({ location }: { location: LocationRecord }) {
   }
 
   return (
-    <div style={{ border: "1px solid #DCE5DD", borderRadius: 10, padding: 12, marginTop: 16 }}>
+    <div style={{ border: "1px solid #2F3A41", borderRadius: 10, padding: 12, marginTop: 16 }}>
       <p style={{ margin: "0 0 8px", fontWeight: 650 }}>Maintain this location</p>
       <label>
         Final directions
