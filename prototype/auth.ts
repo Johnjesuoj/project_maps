@@ -25,12 +25,12 @@ declare module "@auth/core/jwt" {
   }
 }
 
-// LOCAL TEST ONLY dev accounts (no password checks — local prototype only).
-// Google OAuth activates when AUTH_GOOGLE_ID/SECRET are set.
-const DEV_USERS: { id: string; name: string; email: string; role: AppRole }[] = [
-  { id: "dev-customer", name: "Dev Customer", email: "customer@local", role: "CUSTOMER" },
-  { id: "dev-consultant", name: "Dev Consultant", email: "consultant@local", role: "CONSULTANT" },
-  { id: "dev-admin", name: "Dev Admin", email: "admin@local", role: "QUBATORS_ADMIN" },
+// LOCAL TEST ONLY dev accounts (plaintext passwords — local prototype only,
+// never use in production).
+const DEV_USERS: { id: string; name: string; username: string; password: string; role: AppRole }[] = [
+  { id: "dev-admin", name: "Admin", username: "user", password: "password", role: "QUBATORS_ADMIN" },
+  { id: "dev-customer", name: "Dev Customer", username: "customer", password: "customer", role: "CUSTOMER" },
+  { id: "dev-consultant", name: "Dev Consultant", username: "consultant", password: "consultant", role: "CONSULTANT" },
 ];
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
@@ -44,16 +44,15 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       id: "dev-login",
       name: "Local dev login",
       credentials: {
-        username: { label: "Username (customer, consultant, admin)", type: "text" },
+        username: { label: "Username", type: "text" },
+        password: { label: "Password", type: "password" },
       },
       authorize: async (credentials) => {
-        const map: Record<string, (typeof DEV_USERS)[number]> = {
-          customer: DEV_USERS[0],
-          consultant: DEV_USERS[1],
-          admin: DEV_USERS[2],
-        };
-        const found = map[String(credentials?.username ?? "").toLowerCase()];
-        return found ?? null;
+        const username = String(credentials?.username ?? "").toLowerCase();
+        const password = String(credentials?.password ?? "");
+        const found = DEV_USERS.find((u) => u.username === username && u.password === password);
+        if (!found) return null;
+        return { id: found.id, name: found.name, email: `${found.username}@local`, role: found.role };
       },
     }),
   ],

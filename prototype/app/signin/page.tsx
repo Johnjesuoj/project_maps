@@ -8,23 +8,31 @@ export default function SignInPage({
 }: {
   searchParams?: { next?: string };
 }) {
-  const [username, setUsername] = useState("customer");
+  const [username, setUsername] = useState("user");
+  const [password, setPassword] = useState("password");
   const next = searchParams?.next ?? "/";
 
   return (
     <main style={{ maxWidth: 480, margin: "0 auto", padding: "48px 20px" }}>
       <h1>Sign in</h1>
-      <p style={{ color: "#8A969C" }}>Local prototype — no password. Use one of: customer, consultant, admin.</p>
+      <p style={{ color: "#8A969C" }}>Local prototype — admin login: user / password.</p>
       <div style={{ display: "flex", gap: 8, marginBottom: 16 }}>
         <input
           value={username}
           onChange={(e) => setUsername(e.target.value)}
-          placeholder="customer"
+          placeholder="username"
+          style={{ padding: 10, flex: 1 }}
+        />
+        <input
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          placeholder="password"
           style={{ padding: 10, flex: 1 }}
         />
         <button
           type="button"
-          onClick={() => signIn("dev-login", { username, callbackUrl: next })}
+          onClick={() => signIn("dev-login", { username, password, callbackUrl: next })}
         >
           Sign in
         </button>
