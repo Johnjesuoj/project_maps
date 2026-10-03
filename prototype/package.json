@@ -9,6 +9,8 @@
   },
   "dependencies": {
     "@prisma/client": "^6.19.3",
+    "@types/leaflet": "^1.9.22",
+    "leaflet": "^1.9.4",
     "next": "14.2.5",
     "next-auth": "^5.0.0-beta.32",
     "prisma": "^6.19.3",

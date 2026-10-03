@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import type { AlertRecord } from "@/lib/alerts";
 import { ReportButton } from "./ReportButton";
+import { Icon } from "./Icon";
 
 function ageInMinutes(iso: string): number {
   return Math.max(0, Math.round((Date.now() - new Date(iso).getTime()) / 60000));
@@ -26,7 +27,7 @@ export function AlertList({ alerts }: { alerts: AlertRecord[] }) {
       {alerts.map((a) => (
         <div key={a.id} style={{ border: "1px solid var(--border)", borderRadius: 10, padding: 12 }}>
           <p style={{ margin: "0 0 4px" }}>
-            🚧 <strong>{a.type}</strong> — {a.detail}
+            <Icon name="warning" size={16} /> <strong>{a.type}</strong> — {a.detail}
           </p>
           <p style={{ margin: "0 0 8px", fontSize: 13, color: "var(--ink-muted)" }}>
             Reported {ageInMinutes(a.reportedAt)}m ago

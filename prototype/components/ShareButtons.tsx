@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { Icon } from "./Icon";
 
 export function ShareButtons({ id, name }: { id: string; name: string }) {
   const [copied, setCopied] = useState(false);
@@ -20,13 +21,15 @@ export function ShareButtons({ id, name }: { id: string; name: string }) {
   }
 
   return (
-    <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginTop: 12 }}>
+    <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginTop: 12, alignItems: "center" }}>
       <a href={`https://wa.me/?text=${text}`} target="_blank" rel="noreferrer">
-        WhatsApp
+        <Icon name="share" size={16} /> WhatsApp
       </a>
-      <a href={`sms:?&body=${text}`}>SMS</a>
+      <a href={`sms:?&body=${text}`}>
+        <Icon name="sms" size={16} /> SMS
+      </a>
       <button type="button" onClick={copy}>
-        {copied ? "Copied!" : "Copy link"}
+        <Icon name="link" size={16} /> {copied ? "Copied!" : "Copy link"}
       </button>
     </div>
   );

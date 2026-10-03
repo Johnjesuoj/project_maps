@@ -13,6 +13,7 @@ import { CorrectionForm } from "@/components/CorrectionForm";
 import { PhotoGallery } from "@/components/PhotoGallery";
 import { PhotoUploader } from "@/components/PhotoUploader";
 import { LandmarkEditor } from "@/components/LandmarkEditor";
+import { MapDisplay } from "@/components/MapDisplay";
 import { AlertComposer } from "@/components/AlertComposer";
 import { AlertList } from "@/components/AlertList";
 import { VisibilityEditor } from "@/components/VisibilityEditor";
@@ -77,6 +78,14 @@ export default async function LocationDetailPage({ params }: { params: { id: str
       <h1 style={{ fontSize: 26, margin: "8px 0" }}>{location.name}</h1>
       <p style={{ color: "var(--ink-muted)" }}>{location.address} · {location.category}</p>
       <ConfidenceLine location={location} confirmations={confirmations} />
+      {location.lat != null && location.lng != null && (
+        <div style={{ marginTop: 12 }}>
+          <MapDisplay
+            height={220}
+            points={[{ id: location.id, name: location.name, lat: location.lat, lng: location.lng }]}
+          />
+        </div>
+      )}
       <p>
         <ReportButton targetType="location" targetId={location.id} />
       </p>
