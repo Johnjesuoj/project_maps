@@ -1,0 +1,5 @@
+# Build settings mirror the Netlify UI (base = prototype, build = npm run build,
+# publish = prototype/.next). This file adds the Essential Next.js plugin so
+# App Router pages, API routes, and middleware deploy as functions.
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
