@@ -1,1 +1,12 @@
-[]
+[
+  {
+    "id": "claim_mury6ggt",
+    "locationId": "buzz-studio",
+    "claimantId": null,
+    "claimantNote": "my work",
+    "status": "pending",
+    "decidedBy": null,
+    "createdAt": "2026-10-03T05:24:35.165Z",
+    "updatedAt": "2026-10-03T05:24:35.165Z"
+  }
+]
