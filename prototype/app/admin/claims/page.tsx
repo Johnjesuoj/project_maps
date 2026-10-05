@@ -2,8 +2,9 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { AdminHeader } from "@/components/AdminHeader";
+import { Icon } from "@/components/Icon";
 
-// Local moderation queue — open locally for now; QUBATORS_ADMIN gate lands with Auth.js.
 export default function AdminQueuePage() {
   const [claims, setClaims] = useState<any[]>([]);
   const [corrections, setCorrections] = useState<any[]>([]);
@@ -47,50 +48,57 @@ export default function AdminQueuePage() {
   const pendingCorrections = corrections.filter((c) => c.status === "pending");
 
   return (
-    <main style={{ maxWidth: 880, margin: "0 auto", padding: "32px 20px 48px" }}>
-      <p>
-        <Link href="/">← Search</Link> · <Link href="/admin/metrics">Metrics</Link> ·{" "}
-        <Link href="/admin/reports">Reports</Link>
+    <main style={{ maxWidth: 720, margin: "0 auto", padding: "20px 16px 120px" }}>
+      <AdminHeader title="Moderation queue" eyebrow="Trust ops" />
+
+      <p className="mono-label" style={{ color: "var(--ink-muted)" }}>
+        Pending claims ({pendingClaims.length})
       </p>
-      <h1>Moderation queue</h1>
-
-      <h2>Pending claims ({pendingClaims.length})</h2>
-      {pendingClaims.map((c) => (
-        <div key={c.id} style={{ border: "1px solid var(--border)", borderRadius: 10, padding: 12, marginBottom: 8 }}>
-          <p style={{ margin: 0 }}>
-            <Link href={`/locations/${c.locationId}`}>{nameOf(c.locationId)}</Link>
-            {c.claimantNote ? ` — “${c.claimantNote}”` : ""}
-          </p>
-          <div style={{ display: "flex", gap: 8, marginTop: 8 }}>
-            <button type="button" onClick={() => decideClaim(c.id, "approve")}>
-              Approve → owner-verified
-            </button>
-            <button type="button" onClick={() => decideClaim(c.id, "reject")}>
-              Reject
-            </button>
+      <div style={{ display: "grid", gap: 10, marginBottom: 20 }}>
+        {pendingClaims.map((c) => (
+          <div key={c.id} className="instrument-card" style={{ marginTop: 0 }}>
+            <p style={{ margin: "0 0 4px", fontWeight: 700 }}>
+              <Icon name="verified" size={16} />{" "}
+              <Link href={`/locations/${c.locationId}`}>{nameOf(c.locationId)}</Link>
+            </p>
+            {c.claimantNote && (
+              <p style={{ margin: "0 0 8px", color: "var(--ink-muted)", fontSize: 14 }}>“{c.claimantNote}”</p>
+            )}
+            <div style={{ display: "flex", gap: 8 }}>
+              <button type="button" onClick={() => decideClaim(c.id, "approve")}>
+                Approve → owner-verified
+              </button>
+              <button type="button" onClick={() => decideClaim(c.id, "reject")}>
+                Reject
+              </button>
+            </div>
           </div>
-        </div>
-      ))}
-      {pendingClaims.length === 0 && <p>No pending claims.</p>}
+        ))}
+        {pendingClaims.length === 0 && <p style={{ color: "var(--ink-muted)" }}>No pending claims.</p>}
+      </div>
 
-      <h2>Pending corrections ({pendingCorrections.length})</h2>
-      {pendingCorrections.map((c) => (
-        <div key={c.id} style={{ border: "1px solid var(--border)", borderRadius: 10, padding: 12, marginBottom: 8 }}>
-          <p style={{ margin: 0 }}>
-            <Link href={`/locations/${c.locationId}`}>{nameOf(c.locationId)}</Link> —{" "}
-            <strong>{c.type.replace(/_/g, " ")}</strong>: {c.detail}
-          </p>
-          <div style={{ display: "flex", gap: 8, marginTop: 8 }}>
-            <button type="button" onClick={() => decideCorrection(c.id, "confirm")}>
-              Confirm
-            </button>
-            <button type="button" onClick={() => decideCorrection(c.id, "dismiss")}>
-              Dismiss
-            </button>
+      <p className="mono-label" style={{ color: "var(--ink-muted)" }}>
+        Pending corrections ({pendingCorrections.length})
+      </p>
+      <div style={{ display: "grid", gap: 10 }}>
+        {pendingCorrections.map((c) => (
+          <div key={c.id} className="instrument-card" style={{ marginTop: 0 }}>
+            <p style={{ margin: "0 0 8px" }}>
+              <Link href={`/locations/${c.locationId}`}>{nameOf(c.locationId)}</Link> —{" "}
+              <strong>{c.type.replace(/_/g, " ")}</strong>: {c.detail}
+            </p>
+            <div style={{ display: "flex", gap: 8 }}>
+              <button type="button" onClick={() => decideCorrection(c.id, "confirm")}>
+                Confirm
+              </button>
+              <button type="button" onClick={() => decideCorrection(c.id, "dismiss")}>
+                Dismiss
+              </button>
+            </div>
           </div>
-        </div>
-      ))}
-      {pendingCorrections.length === 0 && <p>No pending corrections.</p>}
+        ))}
+        {pendingCorrections.length === 0 && <p style={{ color: "var(--ink-muted)" }}>No pending corrections.</p>}
+      </div>
     </main>
   );
 }

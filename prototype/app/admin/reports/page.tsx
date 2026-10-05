@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Link from "next/link";
+import { AdminHeader } from "@/components/AdminHeader";
+import { Icon } from "@/components/Icon";
 
 export default function AdminReportsPage() {
   const [reports, setReports] = useState<any[]>([]);
@@ -27,28 +28,27 @@ export default function AdminReportsPage() {
   const pending = reports.filter((r) => r.status === "pending");
 
   return (
-    <main style={{ maxWidth: 880, margin: "0 auto", padding: "32px 20px 48px" }}>
-      <p>
-        <Link href="/">← Search</Link> · <Link href="/admin/claims">Claims</Link> ·{" "}
-        <Link href="/admin/metrics">Metrics</Link>
-      </p>
-      <h1>Abuse reports ({pending.length} pending)</h1>
-      {pending.map((r) => (
-        <div key={r.id} style={{ border: "1px solid var(--border)", borderRadius: 10, padding: 12, marginBottom: 8 }}>
-          <p style={{ margin: 0 }}>
-            <strong>{r.targetType}</strong> <code>{r.targetId}</code> — {r.reason}
-          </p>
-          <div style={{ display: "flex", gap: 8, marginTop: 8 }}>
-            <button type="button" onClick={() => decide(r.id, "dismiss")}>
-              Dismiss
-            </button>
-            <button type="button" onClick={() => decide(r.id, "action")}>
-              Mark actioned
-            </button>
+    <main style={{ maxWidth: 720, margin: "0 auto", padding: "20px 16px 120px" }}>
+      <AdminHeader title={`Abuse reports (${pending.length} pending)`} eyebrow="Safety review" />
+      <div style={{ display: "grid", gap: 10 }}>
+        {pending.map((r) => (
+          <div key={r.id} className="instrument-card" style={{ marginTop: 0 }}>
+            <p style={{ margin: "0 0 8px" }}>
+              <Icon name="flag" size={16} /> <strong>{r.targetType}</strong> <code>{r.targetId}</code>
+            </p>
+            <p style={{ margin: "0 0 8px", color: "var(--ink-muted)" }}>{r.reason}</p>
+            <div style={{ display: "flex", gap: 8 }}>
+              <button type="button" onClick={() => decide(r.id, "dismiss")}>
+                Dismiss
+              </button>
+              <button type="button" onClick={() => decide(r.id, "action")}>
+                Mark actioned
+              </button>
+            </div>
           </div>
-        </div>
-      ))}
-      {pending.length === 0 && <p>No pending reports.</p>}
+        ))}
+      </div>
+      {pending.length === 0 && <p style={{ color: "var(--ink-muted)" }}>No pending reports.</p>}
     </main>
   );
 }
