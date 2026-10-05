@@ -35,14 +35,10 @@ export default function Page() {
   const [google, setGoogle] = useState<PlaceCandidate[] | null>(null);
   const [googleState, setGoogleState] = useState<"idle" | "loading" | "error" | "unconfigured" | "done">("idle");
 
-  async function searchGoogle() {
+  async function searchPlaces() {
     setGoogleState("loading");
     try {
       const res = await fetch(`/api/places?q=${encodeURIComponent(q)}`);
-      if (res.status === 503) {
-        setGoogleState("unconfigured");
-        return;
-      }
       if (!res.ok) throw new Error();
       setGoogle(await res.json());
       setGoogleState("done");
@@ -58,7 +54,7 @@ export default function Page() {
       body: JSON.stringify({
         name: p.name,
         address: p.address,
-        googlePlaceId: p.googlePlaceId,
+        osmRef: p.osmRef,
         finalDirections: "Directions not yet added — claim and describe this place.",
       }),
     });
@@ -199,23 +195,17 @@ export default function Page() {
         </Link>
       </div>
 
-      {/* Google candidates */}
+      {/* OpenStreetMap candidates */}
       <h2 style={{ fontSize: 18, margin: "24px 0 10px" }}>
-        <Icon name="public" size={18} /> More from Google
+        <Icon name="public" size={18} /> More from OpenStreetMap
       </h2>
-      <button type="button" onClick={searchGoogle} disabled={googleState === "loading" || q.trim().length < 2}>
-        {googleState === "loading" ? "Searching Google…" : "Search Google too"}
+      <button type="button" onClick={searchPlaces} disabled={googleState === "loading" || q.trim().length < 2}>
+        {googleState === "loading" ? "Searching…" : "Search OpenStreetMap"}
       </button>
-      {googleState === "unconfigured" && (
-        <p style={{ color: "var(--ink-muted)" }}>
-          Google Places needs an API key — add <code>GOOGLE_MAPS_API_KEY</code> to <code>prototype/.env</code> and
-          restart the dev server.
-        </p>
-      )}
-      {googleState === "error" && <p style={{ color: "var(--danger)" }}>Google search failed — try again.</p>}
+      {googleState === "error" && <p style={{ color: "var(--danger)" }}>Search failed — try again.</p>}
       {googleState === "done" &&
         (google ?? []).map((p) => (
-          <div key={p.googlePlaceId} style={{ background: "var(--surface-default)", border: "1px solid var(--border)", borderRadius: 12, padding: 16, marginTop: 8 }}>
+          <div key={p.osmRef} style={{ background: "var(--surface-default)", border: "1px solid var(--border)", borderRadius: 12, padding: 16, marginTop: 8 }}>
             <p style={{ margin: "0 0 4px", fontWeight: 700 }}>{p.name}</p>
             <p style={{ margin: "0 0 8px", color: "var(--ink-muted)", fontSize: 14 }}>{p.address}</p>
             <button type="button" onClick={() => importPlace(p)}>
@@ -223,6 +213,9 @@ export default function Page() {
             </button>
           </div>
         ))}
+      <p style={{ color: "var(--ink-muted)", fontSize: 12, marginTop: 8 }}>
+        Place data © OpenStreetMap contributors
+      </p>
     </main>
   );
 }

@@ -1,11 +1,10 @@
-// Google Places API (New) — Text Search.
-// Key comes from GOOGLE_MAPS_API_KEY (server-side only, never shipped to the client).
-// Needs a key with "Places API (New)" enabled (billing-enabled project).
-// Without a key, callers get a clear 503 and the app keeps working on local data.
+// OpenStreetMap Nominatim — place search (replaces Google Places).
+// No API key needed for light use. Usage policy: max 1 req/s, identify the
+// application, cache results, and credit © OpenStreetMap contributors.
 
 export type PlaceCandidate = {
-  source: "google";
-  googlePlaceId: string;
+  source: "osm";
+  osmRef: string;
   name: string;
   address: string;
   latitude: number | null;
@@ -14,49 +13,49 @@ export type PlaceCandidate = {
 };
 
 export function placesConfigured(): boolean {
-  return !!process.env.GOOGLE_MAPS_API_KEY;
+  return true;
 }
 
 export async function searchPlaces(query: string, maxResults = 5): Promise<PlaceCandidate[]> {
-  const apiKey = process.env.GOOGLE_MAPS_API_KEY;
-  if (!apiKey) {
-    const err = new Error("Google Places not configured — set GOOGLE_MAPS_API_KEY") as Error & {
-      status: number;
-    };
-    err.status = 503;
-    throw err;
-  }
-  const res = await fetch("https://places.googleapis.com/v1/places:searchText", {
-    method: "POST",
+  const params = new URLSearchParams({
+    q: query,
+    format: "jsonv2",
+    addressdetails: "1",
+    limit: String(Math.min(Math.max(maxResults, 1), 10)),
+    countrycodes: "ng",
+    viewbox: "2.9,6.7,3.7,6.4",
+    bounded: "0",
+  });
+  const res = await fetch(`https://nominatim.openstreetmap.org/search?${params.toString()}`, {
     headers: {
-      "Content-Type": "application/json",
-      "X-Goog-Api-Key": apiKey,
-      "X-Goog-FieldMask":
-        "places.id,places.displayName,places.formattedAddress,places.location,places.types",
+      Accept: "application/json",
+      "User-Agent": "ProjectMaps-Prototype/1.0 (local dev; contact: admin@localhost)",
+      Referer: "http://localhost:3000/",
     },
-    body: JSON.stringify({ textQuery: `${query} Lagos, Nigeria`, maxResultCount: maxResults }),
   });
   if (!res.ok) {
-    const err = new Error(`Places API failed (${res.status})`) as Error & { status: number };
+    const err = new Error(`OpenStreetMap search failed (${res.status})`) as Error & { status: number };
     err.status = 502;
     throw err;
   }
   const data = (await res.json()) as {
-    places?: {
-      id: string;
-      displayName?: { text: string };
-      formattedAddress?: string;
-      location?: { latitude: number; longitude: number };
-      types?: string[];
-    }[];
-  };
-  return (data.places ?? []).map((p) => ({
-    source: "google" as const,
-    googlePlaceId: p.id,
-    name: p.displayName?.text ?? "Unnamed place",
-    address: p.formattedAddress ?? "",
-    latitude: p.location?.latitude ?? null,
-    longitude: p.location?.longitude ?? null,
-    types: p.types ?? [],
+    place_id: number;
+    osm_type: string;
+    osm_id: number;
+    name?: string;
+    display_name: string;
+    lat: string;
+    lon: string;
+    type?: string;
+    class?: string;
+  }[];
+  return (data ?? []).map((p) => ({
+    source: "osm" as const,
+    osmRef: `${p.osm_type}/${p.osm_id}`,
+    name: p.name || p.display_name.split(",")[0] || "Unnamed place",
+    address: p.display_name,
+    latitude: Number.isFinite(Number(p.lat)) ? Number(p.lat) : null,
+    longitude: Number.isFinite(Number(p.lon)) ? Number(p.lon) : null,
+    types: [p.class, p.type].filter((t): t is string => !!t),
   }));
 }
