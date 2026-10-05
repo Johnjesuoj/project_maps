@@ -127,6 +127,10 @@ select {
 .leaflet-control-attribution {
   font-size: 10px;
 }
+/* OSM standard tiles are light — invert them for Nocturne dark mode */
+.osm-dark img.leaflet-tile {
+  filter: invert(1) hue-rotate(180deg) brightness(0.92) contrast(0.92);
+}
 .map-dot {
   width: 14px;
   height: 14px;

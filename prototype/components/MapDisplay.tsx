@@ -24,16 +24,17 @@ export function MapDisplay({ points, height = 300 }: { points: MapPoint[]; heigh
       if (cancelled || !ref.current) return;
       const el = ref.current;
       map = L.map(el, { scrollWheelZoom: false });
-      const tiles = L.tileLayer("", { attribution: "© OpenStreetMap · © CARTO", maxZoom: 19 });
+      const tiles = L.tileLayer("", {
+        attribution: "© OpenStreetMap contributors",
+        maxZoom: 19,
+      });
       tiles.addTo(map as never);
 
       function applyTheme() {
         const dark = document.documentElement.dataset.theme !== "light";
-        tiles.setUrl(
-          dark
-            ? "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
-            : "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
-        );
+        tiles.setUrl("https://tile.openstreetmap.org/{z}/{x}/{y}.png");
+        const panes = el.querySelectorAll(".leaflet-tile-pane");
+        panes.forEach((p) => p.classList.toggle("osm-dark", dark));
       }
       applyTheme();
       observer = new MutationObserver(applyTheme);
