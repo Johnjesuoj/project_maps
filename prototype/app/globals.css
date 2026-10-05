@@ -162,3 +162,197 @@ select {
 .hero-nocturne > * {
   position: relative;
 }
+
+/* Stitch rebuild kit: phone column, sheet, pills, stepper, nav */
+.phone-col {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 20px 16px 120px;
+}
+
+.sheet {
+  background: var(--surface-default);
+  border: 1px solid var(--border);
+  border-radius: 28px 28px 16px 16px;
+  padding: 8px 16px 24px;
+  margin-top: -20px;
+  position: relative;
+  z-index: 5;
+  box-shadow: 0 -10px 35px rgba(0, 0, 0, 0.45);
+}
+.sheet-grabber {
+  width: 36px;
+  height: 4px;
+  border-radius: 999px;
+  background: var(--ink-muted);
+  opacity: 0.5;
+  margin: 4px auto 12px;
+}
+
+.frosted-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--surface-nested) 88%, transparent);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+}
+
+.filter-pill {
+  padding: 7px 14px;
+  border-radius: 999px;
+  white-space: nowrap;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+.filter-pill.active {
+  background: var(--mint);
+  color: var(--mint-ink);
+  border-color: transparent;
+  box-shadow: 0 0 12px var(--mint-soft);
+}
+
+.avatar-node {
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 14px;
+  background: var(--surface-nested);
+  color: var(--mint);
+  box-shadow: 0 0 10px var(--mint-soft);
+  position: relative;
+  flex-shrink: 0;
+}
+.avatar-node .tick {
+  position: absolute;
+  bottom: -2px;
+  right: -2px;
+  width: 14px;
+  height: 14px;
+  border-radius: 999px;
+  background: var(--mint);
+  color: var(--mint-ink);
+  font-size: 9px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.stepper {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+.stepper .seg {
+  height: 6px;
+  flex: 1;
+  border-radius: 999px;
+  background: var(--surface-nested);
+  border: 1px solid var(--border);
+}
+.stepper .seg.done {
+  background: var(--mint);
+  border-color: transparent;
+  box-shadow: 0 0 10px var(--mint);
+}
+.stepper .seg.active {
+  background: var(--mint);
+  border-color: transparent;
+  box-shadow: 0 0 12px var(--mint);
+  animation: seg-pulse 1.6s ease-in-out infinite;
+}
+@keyframes seg-pulse {
+  50% {
+    opacity: 0.55;
+  }
+}
+
+.check-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 600;
+}
+.check-chip.on {
+  background: var(--mint-soft);
+  color: var(--mint);
+  border-color: transparent;
+}
+
+.btn-mint {
+  background: linear-gradient(90deg, var(--mint), var(--cyan));
+  color: var(--mint-ink);
+  border: none;
+  box-shadow: 0 8px 24px var(--mint-soft);
+  font-weight: 800;
+}
+
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(480px, 100%);
+  z-index: 50;
+  background: color-mix(in srgb, var(--surface) 94%, transparent);
+  backdrop-filter: blur(16px);
+  border-top: 1px solid var(--border);
+  border-radius: 24px 24px 0 0;
+  display: flex;
+  justify-content: space-around;
+  padding: 10px 8px calc(10px + env(safe-area-inset-bottom, 0px));
+}
+.bottom-nav a {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  min-width: 56px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  color: var(--ink-muted);
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  text-decoration: none;
+}
+.bottom-nav a.active {
+  color: var(--mint);
+  background: var(--mint-soft);
+  box-shadow: 0 0 12px var(--mint-soft);
+}
+
+.instrument-card {
+  background: var(--surface-default);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px;
+  margin-top: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+}
+.card-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: "Montserrat", system-ui, sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 12px;
+  color: var(--mint);
+  margin-bottom: 8px;
+}

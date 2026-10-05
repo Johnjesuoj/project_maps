@@ -3,17 +3,35 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { LocationCard } from "@/components/LocationCard";
 import { MapDisplay } from "@/components/MapDisplay";
+import { PlaceRow } from "@/components/PlaceRow";
 import { Icon } from "@/components/Icon";
 import type { LocationRecord } from "@/lib/locations";
 import type { PlaceCandidate } from "@/lib/places";
+
+const FILTERS = ["All", "Homes", "Businesses", "Estates", "Landmarks"] as const;
+
+function matchesFilter(l: LocationRecord, f: (typeof FILTERS)[number]): boolean {
+  switch (f) {
+    case "Homes":
+      return ["Home", "Apartment"].includes(l.category);
+    case "Businesses":
+      return ["Business", "Office", "Shop", "Studio", "Venue"].includes(l.category);
+    case "Estates":
+      return ["Estate", "Building"].includes(l.category);
+    case "Landmarks":
+      return l.landmarks.length > 0;
+    default:
+      return true;
+  }
+}
 
 export default function Page() {
   const router = useRouter();
   const [q, setQ] = useState("");
   const [rows, setRows] = useState<LocationRecord[]>([]);
   const [loading, setLoading] = useState(true);
+  const [filter, setFilter] = useState<(typeof FILTERS)[number]>("All");
   const [google, setGoogle] = useState<PlaceCandidate[] | null>(null);
   const [googleState, setGoogleState] = useState<"idle" | "loading" | "error" | "unconfigured" | "done">("idle");
 
@@ -49,6 +67,7 @@ export default function Page() {
       router.push(`/locations/${row.id}`);
     }
   }
+
   useEffect(() => {
     const t = setTimeout(async () => {
       setLoading(true);
@@ -64,66 +83,126 @@ export default function Page() {
     return () => clearTimeout(t);
   }, [q]);
 
+  const filtered = rows.filter((l) => matchesFilter(l, filter));
+  const mapped = rows
+    .filter((l) => l.lat != null && l.lng != null)
+    .map((l) => ({ id: l.id, name: l.name, lat: l.lat as number, lng: l.lng as number }));
+
   return (
-    <main style={{ maxWidth: 880, margin: "0 auto", padding: "32px 20px 48px" }}>
-      <div className="hero-nocturne">
-        <p className="mono-label" style={{ margin: "0 0 8px" }}>
-          <Icon name="my_location" size={14} /> Live tactical intel · Lagos
-        </p>
-        <h1 style={{ fontSize: 30, margin: "0 0 8px", letterSpacing: "-0.02em", fontWeight: 800 }}>
-          From the road to the door
-        </h1>
-        <p style={{ margin: "0 0 16px", color: "var(--ink-muted)" }}>
-          Maps get you close. We get you there — verified final-approach guides with photos and landmarks.
-        </p>
-        <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-          <Link href="/locations/new">＋ Create a location</Link>
-          <a href="#search">
-            <Icon name="turn_sharp_right" size={16} /> Navigate
-          </a>
-        </div>
-      </div>
-
-      <h2 style={{ fontSize: 18, margin: "24px 0 10px" }}>
-        <Icon name="map" size={18} /> Nearby on the map
-      </h2>
-      <MapDisplay
-        points={rows
-          .filter((l) => l.lat != null && l.lng != null)
-          .map((l) => ({ id: l.id, name: l.name, lat: l.lat as number, lng: l.lng as number }))}
-      />
-
-      <div id="search" style={{ background: "var(--surface-default)", border: "1px solid var(--border)", borderRadius: 12, padding: 20, marginTop: 20 }}>
-        <label htmlFor="search" style={{ fontSize: 13, fontWeight: 600, color: "var(--ink-muted)" }}>
-          Where are you going?
-        </label>
+    <main className="phone-col" style={{ paddingTop: 12 }}>
+      {/* Search pill header */}
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          gap: 8,
+          background: "var(--surface-nested)",
+          border: "1px solid var(--border)",
+          borderRadius: 999,
+          padding: "6px 6px 6px 14px",
+        }}
+      >
+        <Icon name="search" size={20} />
         <input
           id="search"
           type="text"
           value={q}
           onChange={(e) => setQ(e.target.value)}
-          placeholder="e.g. pharmacy beside the big church in Ikeja"
-          style={{
-            display: "block",
-            width: "100%",
-            marginTop: 8,
-            padding: "12px 14px",
-            borderRadius: 10,
-            border: "1px solid var(--border)",
-            fontSize: 15,
-          }}
+          placeholder="Where are you going?"
+          style={{ flex: 1, border: "none", background: "transparent", padding: "10px 0", fontSize: 15 }}
+        />
+      </div>
+      {q.trim() && (
+        <p className="mono-label" style={{ margin: "10px 2px 0", color: "var(--cyan)" }}>
+          {q.trim()}
+        </p>
+      )}
+
+      {/* Map hero */}
+      <div style={{ marginTop: 12 }}>
+        <MapDisplay
+          height={300}
+          points={mapped}
         />
       </div>
 
-      <h2 style={{ fontSize: 18, margin: "20px 0 10px" }}>
-        Results ({rows.length}){loading ? "…" : ""}
-      </h2>
-      {rows.map((l) => (
-        <LocationCard key={l.id} location={l} />
-      ))}
-      {!loading && rows.length === 0 && <p>No matches. Try “estate”, “pharmacy”, or create a new location.</p>}
+      {/* Bottom sheet */}
+      <div className="sheet">
+        <div className="sheet-grabber" />
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 10 }}>
+          <div>
+            <p className="mono-label" style={{ margin: 0 }}>
+              Ground intel · Lagos
+            </p>
+            <h2 style={{ margin: "2px 0 0", fontSize: 20, fontWeight: 800 }}>Nearby verified places</h2>
+          </div>
+          <Link
+            href="/locations/new"
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 4,
+              padding: "8px 14px",
+              borderRadius: 999,
+              background: "var(--mint-soft)",
+              color: "var(--mint)",
+              fontWeight: 800,
+              fontSize: 12,
+              textTransform: "uppercase",
+              letterSpacing: "0.08em",
+              textDecoration: "none",
+            }}
+          >
+            <Icon name="add_location_alt" size={16} /> Add
+          </Link>
+        </div>
 
-      <h2 style={{ fontSize: 18, margin: "24px 0 10px" }}>More from Google</h2>
+        <div style={{ display: "flex", gap: 8, overflowX: "auto", paddingBottom: 8, marginBottom: 8 }}>
+          {FILTERS.map((f) => (
+            <button
+              key={f}
+              type="button"
+              onClick={() => setFilter(f)}
+              className={`filter-pill${filter === f ? " active" : ""}`}
+            >
+              {f}
+            </button>
+          ))}
+        </div>
+
+        <div style={{ display: "grid", gap: 10 }}>
+          {filtered.map((l) => (
+            <PlaceRow key={l.id} location={l} />
+          ))}
+        </div>
+        {!loading && filtered.length === 0 && (
+          <p style={{ color: "var(--ink-muted)" }}>No places in this view yet.</p>
+        )}
+        {loading && <p style={{ color: "var(--ink-muted)" }}>Scanning ground intel…</p>}
+
+        <Link
+          href="/locations/new"
+          className="btn-mint"
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: 8,
+            height: 48,
+            borderRadius: 999,
+            marginTop: 16,
+            fontWeight: 800,
+            textDecoration: "none",
+          }}
+        >
+          Explore more locations <Icon name="travel_explore" size={20} />
+        </Link>
+      </div>
+
+      {/* Google candidates */}
+      <h2 style={{ fontSize: 18, margin: "24px 0 10px" }}>
+        <Icon name="public" size={18} /> More from Google
+      </h2>
       <button type="button" onClick={searchGoogle} disabled={googleState === "loading" || q.trim().length < 2}>
         {googleState === "loading" ? "Searching Google…" : "Search Google too"}
       </button>
@@ -133,11 +212,11 @@ export default function Page() {
           restart the dev server.
         </p>
       )}
-      {googleState === "error" && <p style={{ color: "crimson" }}>Google search failed — try again.</p>}
+      {googleState === "error" && <p style={{ color: "var(--danger)" }}>Google search failed — try again.</p>}
       {googleState === "done" &&
         (google ?? []).map((p) => (
           <div key={p.googlePlaceId} style={{ background: "var(--surface-default)", border: "1px solid var(--border)", borderRadius: 12, padding: 16, marginTop: 8 }}>
-            <p style={{ margin: "0 0 4px", fontWeight: 650 }}>{p.name}</p>
+            <p style={{ margin: "0 0 4px", fontWeight: 700 }}>{p.name}</p>
             <p style={{ margin: "0 0 8px", color: "var(--ink-muted)", fontSize: 14 }}>{p.address}</p>
             <button type="button" onClick={() => importPlace(p)}>
               Import as location
