@@ -6,5 +6,69 @@
     "url": "/uploads/reference-photos/buzz-studio-f9e14c74-de7d-43c3-8b36-39facfe576e1.webp",
     "createdById": null,
     "createdAt": "2026-10-03T05:24:01.487Z"
+  },
+  {
+    "id": "pho_lekkicon",
+    "locationId": "lekki-conservation",
+    "tag": "building",
+    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d5/A_pathway_in_the_Lekki_Convention_Center.jpg/960px-A_pathway_in_the_Lekki_Convention_Center.jpg",
+    "createdById": null,
+    "createdAt": "2026-10-05T00:00:00.000Z"
+  },
+  {
+    "id": "pho_nikegall",
+    "locationId": "nike-gallery",
+    "tag": "building",
+    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/01/Lagos_Lekki_Nike_Art_Gallery_Aug_2026_IMG_6951b.jpg/960px-Lagos_Lekki_Nike_Art_Gallery_Aug_2026_IMG_6951b.jpg",
+    "createdById": null,
+    "createdAt": "2026-10-05T00:00:00.000Z"
+  },
+  {
+    "id": "pho_national",
+    "locationId": "national-museum",
+    "tag": "building",
+    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d5/Lagos-National-Museum-Front-IMG_6520cut.png/960px-Lagos-National-Museum-Front-IMG_6520cut.png",
+    "createdById": null,
+    "createdAt": "2026-10-05T00:00:00.000Z"
+  },
+  {
+    "id": "pho_freedomp",
+    "locationId": "freedom-park",
+    "tag": "building",
+    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a4/Lagos-Freedom-Park-Pond-Aug-2026-IMG_6724.jpg/960px-Lagos-Freedom-Park-Pond-Aug-2026-IMG_6724.jpg",
+    "createdById": null,
+    "createdAt": "2026-10-05T00:00:00.000Z"
+  },
+  {
+    "id": "pho_tbs",
+    "locationId": "tbs",
+    "tag": "building",
+    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8b/Tafawa_Balewa_Square.jpg/960px-Tafawa_Balewa_Square.jpg",
+    "createdById": null,
+    "createdAt": "2026-10-05T00:00:00.000Z"
+  },
+  {
+    "id": "pho_lekkiiko",
+    "locationId": "lekki-ikoyi-bridge",
+    "tag": "building",
+    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6f/Lekki-link-bridge--full-view2.jpg/960px-Lekki-link-bridge--full-view2.jpg",
+    "createdById": null,
+    "createdAt": "2026-10-05T00:00:00.000Z"
+  },
+  {
+    "id": "pho_ikejacit",
+    "locationId": "ikeja-city-mall",
+    "tag": "building",
+    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e4/Ikeja_City_Mall.jpg/960px-Ikeja_City_Mall.jpg",
+    "createdById": null,
+    "createdAt": "2026-10-05T00:00:00.000Z"
+  },
+  {
+    "id": "pho_cathedra",
+    "locationId": "cathedral-christ",
+    "tag": "building",
+    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f8/Interior_of_Cathedral_Church_of_Christ%2C_Lagos.jpg/960px-Interior_of_Cathedral_Church_of_Christ%2C_Lagos.jpg",
+    "createdById": null,
+    "createdAt": "2026-10-05T00:00:00.000Z"
   }
 ]
