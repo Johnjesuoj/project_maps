@@ -153,7 +153,7 @@ export default function Page() {
           </Link>
         </div>
 
-        <div style={{ display: "flex", gap: 8, overflowX: "auto", paddingBottom: 8, marginBottom: 8 }}>
+        <div className="no-scrollbar" style={{ display: "flex", gap: 8, overflowX: "auto", paddingBottom: 8, marginBottom: 8 }}>
           {FILTERS.map((f) => (
             <button
               key={f}

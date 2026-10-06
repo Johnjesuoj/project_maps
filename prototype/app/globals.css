@@ -209,10 +209,18 @@ select {
   padding: 7px 14px;
   border-radius: 999px;
   white-space: nowrap;
+  flex-shrink: 0;
   font-size: 12px;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.08em;
+}
+.no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
 }
 .filter-pill.active {
   background: var(--mint);
