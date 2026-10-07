@@ -206,14 +206,21 @@ select {
 }
 
 .filter-pill {
-  padding: 7px 14px;
+  padding: 6px 10px;
   border-radius: 999px;
   white-space: nowrap;
   flex-shrink: 0;
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.06em;
+}
+.filter-row {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  padding-bottom: 8px;
+  margin-bottom: 8px;
 }
 .no-scrollbar {
   scrollbar-width: none;
