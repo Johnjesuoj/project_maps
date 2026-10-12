@@ -28,19 +28,7 @@ export function PlaceRow({ location }: { location: LocationRecord }) {
   return (
     <Link
       href={`/locations/${location.id}`}
-      style={{
-        display: "flex",
-        width: "100%",
-        minWidth: 0,
-        gap: 10,
-        alignItems: "center",
-        padding: 10,
-        borderRadius: 14,
-        background: "var(--surface-nested)",
-        border: "1px solid var(--border)",
-        textDecoration: "none",
-        color: "inherit",
-      }}
+      className="place-card"
     >
       <div className="avatar-node">
         {initials(location.name)}

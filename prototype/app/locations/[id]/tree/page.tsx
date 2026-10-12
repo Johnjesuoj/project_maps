@@ -29,13 +29,18 @@ export default async function LocationTreePage({ params }: { params: { id: strin
 
       <h2>Inside this place ({children.length})</h2>
       {children.map((c) => (
-        <div key={c.id} style={{ border: "1px solid var(--border)", borderRadius: 10, padding: 12, marginBottom: 8 }}>
-          <p style={{ margin: 0 }}>
-            <Link href={`/locations/${c.id}/tree`}>{c.name}</Link>{" "}
-            <span style={{ color: "var(--ink-muted)", fontSize: 13 }}>· {c.level}</span>
-          </p>
-          <p style={{ margin: "4px 0 0", fontSize: 14 }}>{c.finalDirections}</p>
-        </div>
+        <Link key={c.id} href={`/locations/${c.id}/tree`} className="place-card" style={{ marginBottom: 8 }}>
+          <div style={{ flex: 1, minWidth: 0 }}>
+            <p style={{ margin: 0, fontWeight: 700, fontSize: 14, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+              {c.name}{" "}
+              <span style={{ color: "var(--ink-muted)", fontSize: 12, fontWeight: 400 }}>· {c.level}</span>
+            </p>
+            <p style={{ margin: "1px 0 0", fontSize: 12, color: "var(--ink-muted)", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+              {c.finalDirections}
+            </p>
+          </div>
+          <span style={{ flexShrink: 0, display: "inline-flex" }}>›</span>
+        </Link>
       ))}
       {children.length === 0 && <p style={{ color: "var(--ink-muted)" }}>Nothing nested here — this is the destination door.</p>}
 

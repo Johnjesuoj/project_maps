@@ -280,6 +280,22 @@ select {
   justify-content: center;
 }
 
+/* Shared place-row card */
+.place-card {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  padding: 12px;
+  width: 100%;
+  min-width: 0;
+  max-width: 420px;
+  border-radius: 16px;
+  background: var(--surface-nested);
+  border: 1px solid var(--border);
+  text-decoration: none;
+  color: inherit;
+}
+
 .stepper {
   display: flex;
   gap: 6px;
