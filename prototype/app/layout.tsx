@@ -2,8 +2,21 @@ import Link from "next/link";
 import { auth } from "@/auth";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { BottomNav } from "@/components/BottomNav";
+import { SwRegister } from "@/components/SwRegister";
+import type { Metadata } from "next";
 import "./globals.css";
 import "leaflet/dist/leaflet.css";
+
+export const metadata: Metadata = {
+  title: "Project Maps",
+  description: "From the road to the door.",
+  themeColor: "#060E16",
+  manifest: "/manifest.webmanifest",
+  icons: {
+    icon: "/pwa-192x192.png",
+    apple: "/pwa-192x192.png",
+  },
+};
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const session = await auth();
@@ -37,6 +50,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         </header>
         {children}
         <BottomNav />
+        <SwRegister />
       </body>
     </html>
   );
