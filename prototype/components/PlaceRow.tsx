@@ -50,7 +50,7 @@ export function PlaceRow({ location }: { location: LocationRecord }) {
         <p style={{ margin: 0, fontWeight: 700, fontSize: 15, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
           {location.name}
         </p>
-        <p style={{ margin: "2px 0 0", fontSize: 13, color: "var(--ink-muted)", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+        <p style={{ margin: "1px 0 0", fontSize: 12, lineHeight: 1.3, color: "var(--ink-muted)", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
           {location.address}
         </p>
         <p className="mono-label" style={{ margin: "6px 0 0", fontSize: 11, color: badgeColor(location.verificationStatus) }}>
