@@ -101,6 +101,12 @@ select {
   font-style: normal;
   line-height: 1;
   vertical-align: -3px;
+  /* Ligatures break under inherited uppercase — never transform icon text */
+  text-transform: none !important;
+  letter-spacing: normal !important;
+  white-space: nowrap;
+  direction: ltr;
+  -webkit-font-smoothing: antialiased;
 }
 
 /* Leaflet Nocturne dressing */
@@ -217,8 +223,8 @@ select {
 }
 .filter-row {
   display: flex;
+  flex-wrap: wrap;
   gap: 6px;
-  overflow-x: auto;
   padding-bottom: 8px;
   margin-bottom: 8px;
 }
