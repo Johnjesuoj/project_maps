@@ -30,6 +30,8 @@ export function PlaceRow({ location }: { location: LocationRecord }) {
       href={`/locations/${location.id}`}
       style={{
         display: "flex",
+        width: "100%",
+        minWidth: 0,
         gap: 12,
         alignItems: "flex-start",
         padding: 12,
@@ -56,7 +58,9 @@ export function PlaceRow({ location }: { location: LocationRecord }) {
           {verificationLabel(location.verificationStatus)}
         </p>
       </div>
-      <Icon name="chevron_right" size={20} />
+      <span style={{ flexShrink: 0, display: "inline-flex" }}>
+        <Icon name="chevron_right" size={20} />
+      </span>
     </Link>
   );
 }

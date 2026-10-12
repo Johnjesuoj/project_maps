@@ -52,6 +52,12 @@ body {
   color: var(--ink);
 }
 
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 body {
   font-family: "Montserrat", system-ui, sans-serif;
 }
@@ -175,8 +181,9 @@ select {
 
 /* Stitch rebuild kit: phone column, sheet, pills, stepper, nav */
 .phone-col {
-  max-width: 480px;
-  margin: 0 auto;
+  width: 100%;
+  max-width: 430px;
+  margin-inline: auto;
   padding: 20px 16px 120px;
 }
 
@@ -330,7 +337,9 @@ select {
   bottom: 0;
   left: 50%;
   transform: translateX(-50%);
-  width: min(480px, 100%);
+  width: 100%;
+  max-width: 430px;
+  margin-inline: auto;
   z-index: 50;
   background: color-mix(in srgb, var(--surface) 94%, transparent);
   backdrop-filter: blur(16px);
