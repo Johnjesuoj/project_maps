@@ -4,3 +4,9 @@ prototype/out/
 prototype/.env
 prototype/tsconfig.tsbuildinfo
 prototype/public/uploads/
+# Android signing: keystore + passwords must NEVER be committed.
+# Losing the release keystore means you can never update the Play listing.
+android/*.keystore
+android/*.jks
+android/*.password
+android/keystore-info.txt
