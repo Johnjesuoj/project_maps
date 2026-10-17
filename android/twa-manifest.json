@@ -1,0 +1,52 @@
+{
+  "packageId": "com.johnjesuoj.smaps",
+  "host": "s-maps.netlify.app",
+  "name": "Project Maps",
+  "launcherName": "S-Maps",
+  "display": "standalone",
+  "themeColor": "#060E16",
+  "themeColorDark": "#060E16",
+  "navigationColor": "#060E16",
+  "navigationColorDark": "#060E16",
+  "navigationDividerColor": "#000000",
+  "navigationDividerColorDark": "#000000",
+  "backgroundColor": "#060E16",
+  "enableNotifications": false,
+  "startUrl": "/",
+  "iconUrl": "https://s-maps.netlify.app/pwa-512x512.png",
+  "maskableIconUrl": "https://s-maps.netlify.app/pwa-512x512.png",
+  "splashScreenFadeOutDuration": 300,
+  "signingKey": {
+    "path": "C:\\Users\\user\\Desktop\\SMaps\\my-maps-app-docs\\android\\smaps-release.keystore",
+    "alias": "smaps"
+  },
+  "appVersionName": "1.0.0",
+  "appVersionCode": 1,
+  "shortcuts": [],
+  "generatorApp": "bubblewrap-cli",
+  "webManifestUrl": "https://s-maps.netlify.app/manifest.webmanifest",
+  "fallbackType": "customtabs",
+  "features": {},
+  "alphaDependencies": {
+    "enabled": false
+  },
+  "enableSiteSettingsShortcut": true,
+  "isChromeOSOnly": false,
+  "isMetaQuest": false,
+  "fullScopeUrl": "https://s-maps.netlify.app/",
+  "minSdkVersion": 24,
+  "orientation": "portrait",
+  "fingerprints": [
+    {
+      "name": "smaps-release",
+      "value": "55:03:14:79:61:51:A3:93:61:46:09:6E:C7:A7:9B:71:FF:C6:7B:A2:D3:0B:A5:7D:53:26:B0:A1:76:3D:7B:03"
+    }
+  ],
+  "additionalTrustedOrigins": [],
+  "retainedBundles": [],
+  "protocolHandlers": [],
+  "fileHandlers": [],
+  "launchHandlerClientMode": "",
+  "displayOverride": [],
+  "appVersion": "1.0.0"
+}

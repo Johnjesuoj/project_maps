@@ -10,3 +10,22 @@ android/*.keystore
 android/*.jks
 android/*.password
 android/keystore-info.txt
+# Android SDK (~1GB, reinstallable via sdkmanager) — never commit.
+android/sdk/
+# Gradle caches + build outputs — regenerable, never commit.
+android/.gradle/
+android/build/
+android/app/build/
+android/app-release-*
+android/*.idsig
+# Generated TWA project — regenerable from twa-manifest.json via `bubblewrap update`.
+android/app/
+android/build.gradle
+android/settings.gradle
+android/gradle.properties
+android/gradlew
+android/gradlew.bat
+android/gradle/
+android/manifest-checksum.txt
+android/store_icon.png
+# Keep twa-manifest.json (the source-of-truth TWA config) tracked.
